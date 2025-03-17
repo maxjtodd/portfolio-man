@@ -1,4 +1,4 @@
-package learn.portfolio_man.data;
+package learn.portfolio_man.models;
 
 public class User {
 
