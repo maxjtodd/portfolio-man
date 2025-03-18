@@ -19,6 +19,11 @@ public class UserService {
     public Result<User> add(User toAdd) {
         Result<User> result = validate(toAdd);
 
+        if (result.isSuccess()) {
+            User added = userRepository.add(toAdd);
+            result.setPayload(added);
+        }
+
         return result;
     }
 

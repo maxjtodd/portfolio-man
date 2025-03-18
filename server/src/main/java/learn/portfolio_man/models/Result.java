@@ -22,6 +22,10 @@ public class Result<T> {
         this.messages = m;
     }
 
+    public boolean isSuccess() {
+        return this.messages.size() <= 0;
+    }
+
     public T getPayload() {
         return payload;
     }
