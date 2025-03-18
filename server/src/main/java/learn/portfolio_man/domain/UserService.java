@@ -50,9 +50,6 @@ public class UserService {
             result.addMessage(ResultStatus.BAD_REQUEST, "Last name is required");
         }
 
-
-
-
         return result;
     }
     
