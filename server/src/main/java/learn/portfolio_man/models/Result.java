@@ -40,6 +40,11 @@ public class Result<T> {
         this.messages.add(message);
     }
 
+    public void addMessage(HttpStatus status, String message) {
+        this.messages.add(message);
+        this.status = status;
+    }
+
     public HttpStatus getStatus() {
         return status;
     }
