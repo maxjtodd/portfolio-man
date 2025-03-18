@@ -41,6 +41,10 @@ public class UserService {
             result.addMessage(ResultStatus.BAD_REQUEST, "Email is required");
         }
         // TODO: when findByEmail implemented, unique email
+        
+        if (toValidate.getFirstName() == null || toValidate.getFirstName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "First name is required");
+        }
 
 
 
