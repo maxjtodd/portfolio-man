@@ -67,6 +67,21 @@ public class UserServiceTest {
             assertEquals(expected, actual2);
         }
 
+        @Test
+        void shouldNotAddInvalidLastName() {
+            User toAdd1 = TestHelper.generate_user(1);
+            toAdd1.setLastName(null);
+            User toAdd2 = TestHelper.generate_user(1);
+            toAdd2.setLastName("");
+            Result<User> expected = new Result<>(ResultStatus.BAD_REQUEST, "Last name is required");
+
+            Result<User> actual1 = service.add(toAdd1);
+            Result<User> actual2 = service.add(toAdd2);
+
+            assertEquals(expected, actual1);
+            assertEquals(expected, actual2);
+        }
+
 
         @Test
         void shouldAdd() {

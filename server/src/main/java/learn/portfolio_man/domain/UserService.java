@@ -46,6 +46,11 @@ public class UserService {
             result.addMessage(ResultStatus.BAD_REQUEST, "First name is required");
         }
 
+        if (toValidate.getLastName() == null || toValidate.getLastName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Last name is required");
+        }
+
+
 
 
         return result;
