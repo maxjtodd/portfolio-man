@@ -37,7 +37,12 @@ public class UserService {
             return result;
         }
 
+        if (toValidate.getEmail() == null || toValidate.getEmail().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Email is required");
+        }
         // TODO: when findByEmail implemented, unique email
+
+
 
         return result;
     }
