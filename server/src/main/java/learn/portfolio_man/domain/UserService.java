@@ -1,10 +1,10 @@
 package learn.portfolio_man.domain;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import learn.portfolio_man.data.UserRepository;
 import learn.portfolio_man.models.Result;
+import learn.portfolio_man.models.ResultStatus;
 import learn.portfolio_man.models.User;
 
 @Service
@@ -28,9 +28,11 @@ public class UserService {
         Result<User> result = new Result<>();
 
         if (toValidate == null) {
-            result.addMessage(HttpStatus.BAD_REQUEST, "User is required");
+            result.addMessage(ResultStatus.BAD_REQUEST, "User is required");
             return result;
         }
+
+        // TODO: when findByEmail implemented, unique email
 
         return result;
     }

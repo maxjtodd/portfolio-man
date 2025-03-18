@@ -3,18 +3,16 @@ package learn.portfolio_man.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-
 public class Result<T> {
 
     private T payload;
     private List<String> messages = new ArrayList<>();
-    private HttpStatus status = HttpStatus.OK;
+    private ResultStatus status = ResultStatus.OK;
 
     public Result() {
     }
 
-    public Result(HttpStatus status, String... messages) {
+    public Result(ResultStatus status, String... messages) {
         this.payload = null;
         this.status = status;
         List<String> m = new ArrayList<>();
@@ -40,16 +38,16 @@ public class Result<T> {
         this.messages.add(message);
     }
 
-    public void addMessage(HttpStatus status, String message) {
+    public void addMessage(ResultStatus status, String message) {
         this.messages.add(message);
         this.status = status;
     }
 
-    public HttpStatus getStatus() {
+    public ResultStatus getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(ResultStatus status) {
         this.status = status;
     }
 
