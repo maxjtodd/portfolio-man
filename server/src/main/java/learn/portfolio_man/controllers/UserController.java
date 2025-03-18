@@ -42,7 +42,7 @@ public class UserController {
         return new ResponseEntity<>(jwt, HttpStatus.CREATED);
     }
 
-    private Map<String, String> createJwt(User user) {
+    public Map<String, String> createJwt(User user) {
         String jwt = Jwts.builder()
                 .claim("userId", user.getUserId())
                 .claim("email", user.getEmail())
