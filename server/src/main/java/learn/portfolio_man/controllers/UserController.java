@@ -1,5 +1,8 @@
 package learn.portfolio_man.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.jsonwebtoken.Jwts;
 import learn.portfolio_man.domain.UserService;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.User;
@@ -18,9 +22,11 @@ import learn.portfolio_man.models.User;
 public class UserController {
 
     private UserService userService;
+    private SecretSigningKey secretSigningKey;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecretSigningKey secretSigningKey) {
         this.userService = userService;
+        this.secretSigningKey = secretSigningKey;
     }
 
     @PostMapping("/signup")
@@ -32,8 +38,21 @@ public class UserController {
             return ControllerHelper.errorResultToResponseEntity(result);
         }
 
-        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-
+        Map<String, String> jwt = createJwt(result.getPayload());
+        return new ResponseEntity<>(jwt, HttpStatus.CREATED);
     }
-    
+
+    private Map<String, String> createJwt(User user) {
+        String jwt = Jwts.builder()
+                .claim("userId", user.getUserId())
+                .claim("email", user.getEmail())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
+                .signWith(secretSigningKey.getKey())
+                .compact();
+        Map<String, String> output = new HashMap<>();
+        output.put("jwt", jwt);
+        return output;
+    }
+
 }
