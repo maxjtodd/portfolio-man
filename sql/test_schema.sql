@@ -44,11 +44,11 @@ delimiter //
 create procedure set_known_good_state()
 begin
 
-    delete from user;
-    delete from friend;
-    delete from portfolio;
-    delete from stock;
     delete from holding;
+    delete from stock;
+    delete from portfolio;
+    delete from friend;
+    delete from user;
 
     alter table user auto_increment=1;
     alter table friend auto_increment=1;
@@ -69,7 +69,7 @@ begin
         (1, "Portfolio 1", true),
         (2, "Portfolio 2", true),
         (3, "Portfolio 3", true),
-        (4, "Portfolio 4", false);
+        (3, "Portfolio 4", false);
 
     insert into stock(ticker_symbol) values
         ("ST1"),
@@ -78,5 +78,8 @@ begin
         (1, 1, 1),
         (2, 2, 1);
 
+
 end//
 delimiter ;
+
+call set_known_good_state();
