@@ -11,10 +11,18 @@ export class AuthenticationService {
 
     setJwt(jwt: string): void {
         this.jwt = jwt;
+        localStorage.setItem("jwt", jwt);
     }
 
     getJwt(): string {
         return this.jwt
+    }
+
+    loadJwtOnStartup(): void {
+        const loadedJwt = localStorage.getItem("jwt");
+        if (loadedJwt !== null) {
+            this.jwt = loadedJwt;
+        }
     }
 
     setErrors(errors: string[]): void {
@@ -27,6 +35,7 @@ export class AuthenticationService {
 
     logout(): void {
         this.jwt = '';
+        localStorage.removeItem("jwt");
     }
 
     isLoggedIn(): boolean {
