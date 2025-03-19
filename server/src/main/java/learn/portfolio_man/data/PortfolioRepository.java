@@ -10,7 +10,7 @@ public interface PortfolioRepository {
     public List<Portfolio> getPublicPortfolios();
     public List<Portfolio> getUserListsPortfolios(List<Integer> userIds);
 
-    public Portfolio create(Portfolio portfolio);
+    public Portfolio add(Portfolio portfolio);
 
     public Portfolio edit(Portfolio portfolio);
 
