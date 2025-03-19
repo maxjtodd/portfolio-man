@@ -12,6 +12,8 @@ import learn.portfolio_man.models.User;
 @Repository
 public class UserJdbcClientRepository implements UserRepository {
 
+    private final String SELECT = "SELECT user_id, email, first_name, last_name, password FROM user ";
+
     private JdbcClient jdbcClient;
 
     public UserJdbcClientRepository(JdbcClient jdbcClient) {
@@ -20,8 +22,12 @@ public class UserJdbcClientRepository implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
-        // TODO: login
-        throw new UnsupportedOperationException("Unimplemented method 'getUserByEmail'");
+        final String sql = SELECT + "WHERE email = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(email)
+            .query(new UserMapper())
+            .optional().orElse(null);
     }
 
     @Override
