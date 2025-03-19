@@ -7,12 +7,22 @@ export class AuthenticationService {
 
     private jwt = '';
 
+    private errors: string[] = [];
+
     setJwt(jwt: string): void {
         this.jwt = jwt;
     }
 
     getJwt(): string {
         return this.jwt
+    }
+
+    setErrors(errors: string[]): void {
+        this.errors = errors;
+    }
+
+    getErrors(): string[] {
+        return this.errors;
     }
 
     logout(): void {
@@ -37,7 +47,10 @@ export class AuthenticationService {
             })
 
         const content = await res.json();
-        this.setJwt(content.jwt);
+
+        this.handleResponse(res.status, content);
+
+        return res.status === 200;
     }
 
     async login(email: string, password: string) {
@@ -54,7 +67,19 @@ export class AuthenticationService {
 
         const content = await res.json();
 
-        this.setJwt(content.jwt);
+        this.handleResponse(res.status, content);
+
+        return res.status === 200;
+    }
+
+    private handleResponse(status: number, content: any) {
+
+        if (status === 200) {
+            this.setJwt(content.jwt);
+            this.setErrors([]);
+        } else {
+            this.setErrors(content);
+        }
 
     }
 

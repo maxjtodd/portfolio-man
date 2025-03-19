@@ -5,6 +5,10 @@
 
         <h2 class="text-center"> {{login ? "Login" : "Sign Up"}} </h2>
 
+        @if (authenticationService.getErrors().length > 0) {
+            <app-error-messages [errorMessages]="authenticationService.getErrors()"></app-error-messages>
+        }
+
         <form [formGroup]="userForm" (submit)="submit()">
 
             <div class="form-group">
