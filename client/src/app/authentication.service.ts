@@ -40,4 +40,22 @@ export class AuthenticationService {
         this.setJwt(content.jwt);
     }
 
+    async login(email: string, password: string) {
+
+        const res = await fetch("http://localhost:8080/api/user",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email, password})
+            }
+        );
+
+        const content = await res.json();
+
+        this.setJwt(content.jwt);
+
+    }
+
 }

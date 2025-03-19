@@ -48,7 +48,10 @@ export class UserFormComponent {
         );
     }
 
-    loginUser() {
-        console.log('login');
+    async loginUser() {
+        await this.authenticationService.login(
+            this.userForm.value.email ?? '',
+            this.userForm.value.password ?? '',
+        );
     }
 }
