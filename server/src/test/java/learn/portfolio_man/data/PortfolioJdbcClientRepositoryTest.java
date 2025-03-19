@@ -29,7 +29,7 @@ public class PortfolioJdbcClientRepositoryTest {
     }
 
     @Nested
-    class TestGetUsersPortfolios {
+    class GetUsersPortfolios {
 
         @Test
         void shouldGetOneGetUsersPortfolios() {
@@ -59,5 +59,18 @@ public class PortfolioJdbcClientRepositoryTest {
         }
 
     }
+
+    @Test
+    void shouldAdd() {
+        Portfolio toAdd = TestHelper.generatePortfolio(1);        
+        toAdd.setPortfolioId(0);
+        Portfolio expected = TestHelper.generatePortfolio(1);
+        expected.setPortfolioId(TestHelper.NEXT_PORTFOLIO_ID);
+
+        Portfolio actual = repository.add(toAdd);
+
+        assertEquals(expected, actual);
+    }
+
 }
 

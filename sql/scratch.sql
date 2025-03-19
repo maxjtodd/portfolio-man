@@ -3,4 +3,4 @@ use portfolio_test;
 
 -- call set_known_good_state();
 
-select private from portfolio;
+select * from portfolio;
