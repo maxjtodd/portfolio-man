@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-user-form',
@@ -9,6 +10,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class UserFormComponent {
 
+    authenticationService: AuthenticationService = inject(AuthenticationService);
+
     userForm = new FormGroup({
         firstName: new FormControl(''),
         lastName: new FormControl(''),
@@ -16,7 +19,15 @@ export class UserFormComponent {
         password: new FormControl('')
     });
 
-    submit() {
-        console.log(this.userForm.value) 
+    async submit() {
+        await this.authenticationService.signUp(
+            this.userForm.value.firstName ?? '',
+            this.userForm.value.lastName ?? '',
+            this.userForm.value.email ?? '',
+            this.userForm.value.password ?? '',
+        );
+        
+        const jwt = this.authenticationService.getJwt();
+        console.log(jwt);
     }
 }
