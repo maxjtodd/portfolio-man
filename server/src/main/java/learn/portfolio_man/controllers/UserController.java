@@ -42,6 +42,29 @@ public class UserController {
         return new ResponseEntity<>(jwt, HttpStatus.CREATED);
     }
 
+    @PostMapping
+    public ResponseEntity<Object> login(@RequestBody User user) {
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        System.out.println();
+        System.out.println(user);
+        System.out.println();
+        System.out.println();
+
+        Result<User> result = userService.findByEmail(user.getEmail());
+
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        System.out.println(result.getPayload());
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     public Map<String, String> createJwt(User user) {
         String jwt = Jwts.builder()
                 .claim("userId", user.getUserId())
