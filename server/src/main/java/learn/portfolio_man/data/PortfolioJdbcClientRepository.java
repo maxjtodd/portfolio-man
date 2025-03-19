@@ -2,13 +2,30 @@ package learn.portfolio_man.data;
 
 import java.util.List;
 
+import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
+
 import learn.portfolio_man.models.Portfolio;
 
+@Repository
 public class PortfolioJdbcClientRepository implements PortfolioRepository {
+
+    private final String SELECT = "SELECT portfolio_id, user_id, name, private FROM portfolio ";
+
+    private JdbcClient jdbcClient;
+
+    public PortfolioJdbcClientRepository(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
+    }
 
     @Override
     public List<Portfolio> getUsersPortfolios(int userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getUsersPortfolios'");
+        final String sql = SELECT + "WHERE user_id = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(userId)
+            .query(new PortfolioMapper())
+            .list();
     }
 
     @Override

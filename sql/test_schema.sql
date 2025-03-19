@@ -68,8 +68,10 @@ begin
     insert into portfolio(user_id, name, private) values
         (1, "Portfolio 1", true),
         (2, "Portfolio 2", true),
-        (3, "Portfolio 3", true),
-        (3, "Portfolio 4", false);
+        (2, "Portfolio 3", false),
+        (3, "Portfolio 4", true),
+        (3, "Portfolio 5", false),
+        (3, "Portfolio 6", true);
 
     insert into stock(ticker_symbol) values
         ("ST1"),
