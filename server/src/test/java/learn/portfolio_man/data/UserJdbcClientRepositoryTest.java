@@ -28,7 +28,7 @@ public class UserJdbcClientRepositoryTest {
     }
 
     @Nested
-    class FindByEmail {
+    class GetByEmail {
 
         @Test
         void shouldFindEmail() {
@@ -46,6 +46,26 @@ public class UserJdbcClientRepositoryTest {
             assertNull(actual);
         }
 
+    }
+
+    @Nested
+    class GetById {
+        
+        @Test
+        void shouldFindId() {
+            User expected = TestHelper.generate_user(1);
+
+            User actual = repository.getUserById(expected.getUserId());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindId() {
+            User actual = repository.getUserById(1000);
+
+            assertNull(actual);
+        }
     }
 
 

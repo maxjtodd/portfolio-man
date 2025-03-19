@@ -32,7 +32,12 @@ public class UserJdbcClientRepository implements UserRepository {
 
     @Override
     public User getUserById(int userId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById'");
+        final String sql = SELECT + "WHERE user_id = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(userId)
+            .query(new UserMapper())
+            .optional().orElse(null);
     }
 
     @Override
