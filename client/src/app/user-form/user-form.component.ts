@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-form',
@@ -9,6 +10,8 @@ import { AuthenticationService } from '../authentication.service';
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
+
+    constructor(private router: Router) {}
 
     authenticationService: AuthenticationService = inject(AuthenticationService);
 
@@ -27,7 +30,6 @@ export class UserFormComponent {
             this.userForm.value.password ?? '',
         );
         
-        const jwt = this.authenticationService.getJwt();
-        console.log(jwt);
+        this.router.navigate(['/']);
     }
 }
