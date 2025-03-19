@@ -11,6 +11,13 @@ export const routes: Routes = [
     {
         path: 'signup',
         component: UserFormComponent,
+        data: {login: false},
         title: 'Sign Up'
+    },
+    {
+        path: 'login',
+        component: UserFormComponent,
+        data: {login: true},
+        title: 'Log In'
     }
 ];
