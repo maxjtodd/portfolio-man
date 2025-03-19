@@ -1,19 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ErrorMessagesComponent } from '../error-messages/error-messages.component';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ErrorMessagesComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 })
 export class UserFormComponent {
 
-    constructor(private router: Router) {}
+    login!: boolean;
 
-    authenticationService: AuthenticationService = inject(AuthenticationService);
+    constructor(private router: Router, private route: ActivatedRoute, public authenticationService: AuthenticationService) {}
+
+    ngOnInit() {
+        this.login = this.route.snapshot.data['login'];
+        this.authenticationService.setErrors([]);
+    }
 
     userForm = new FormGroup({
         firstName: new FormControl(''),
@@ -23,13 +29,27 @@ export class UserFormComponent {
     });
 
     async submit() {
-        await this.authenticationService.signUp(
-            this.userForm.value.firstName ?? '',
-            this.userForm.value.lastName ?? '',
-            this.userForm.value.email ?? '',
-            this.userForm.value.password ?? '',
-        );
+
+        let success = true;
+
+        if (this.login) {
+            success = await this.authenticationService.login(
+                this.userForm.value.email ?? '',
+                this.userForm.value.password ?? '',
+            );
+        } else {
+            success = await this.authenticationService.signUp(
+                this.userForm.value.firstName ?? '',
+                this.userForm.value.lastName ?? '',
+                this.userForm.value.email ?? '',
+                this.userForm.value.password ?? '',
+            );
+        }
         
-        this.router.navigate(['/']);
+        if (success) {
+            this.router.navigate(['/']);
+        }
+
     }
+
 }
