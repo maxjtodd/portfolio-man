@@ -10,4 +10,8 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class NavbarComponent {
     authenticationService: AuthenticationService = inject(AuthenticationService);
+
+    logOut(): void {
+        this.authenticationService.logout();
+    }
 }

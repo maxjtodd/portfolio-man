@@ -19,7 +19,7 @@
 
                 <!-- Must be signed in -->
                 @if (authenticationService.isLoggedIn()) {
-                    <a class="nav-item nav-link" href="#">Logout</a>
+                    <button class="nav-item nav-link" (click)="logOut()">Logout</button>
                 }
                 <!-- Must be signed out -->
                 @else {
