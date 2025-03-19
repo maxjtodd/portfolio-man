@@ -34,6 +34,20 @@ public class UserService {
         return result;
     }
 
+    public Result<User> findById(int userId) {
+        Result<User> result = new Result<>();
+
+        User fetchedUser = userRepository.getUserById(userId);
+
+        if (fetchedUser == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "User not found");
+        } else {
+            result.setPayload(fetchedUser);
+        }
+
+        return result;
+    }
+
 
     public Result<User> add(User toAdd) {
         Result<User> result = validate(toAdd);

@@ -52,6 +52,32 @@ public class UserServiceTest {
     }
 
     @Nested
+    class FindById {
+
+        @Test
+        void shouldFindId() {
+            User user = TestHelper.generate_user(1);
+            when(userRepository.getUserById(user.getUserId())).thenReturn(user);
+            Result<User> expected = new Result<>();
+            expected.setPayload(user);
+
+            Result<User> actual = service.findById(user.getUserId());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindId() {
+            User user = TestHelper.generate_user(1);
+            Result<User> expected = new Result<>(ResultStatus.NOT_FOUND, "User not found");
+
+            Result<User> actual = service.findById(user.getUserId());
+
+            assertEquals(expected, actual);
+        }
+    }
+
+    @Nested
     class Add {
 
         @Test
