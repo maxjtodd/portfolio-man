@@ -26,6 +26,32 @@ public class UserServiceTest {
     UserRepository userRepository;
 
     @Nested
+    class FindByEmail {
+
+        @Test
+        void shouldFindEmail() {
+            User user = TestHelper.generate_user(1);
+            when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user);
+            Result<User> expected = new Result<>();
+            expected.setPayload(user);
+
+            Result<User> actual = service.findByEmail(user.getEmail());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindEmail() {
+            User user = TestHelper.generate_user(1);
+            Result<User> expected = new Result<>(ResultStatus.NOT_FOUND, "User not found");
+
+            Result<User> actual = service.findByEmail(user.getEmail());
+
+            assertEquals(expected, actual);
+        }
+    }
+
+    @Nested
     class Add {
 
         @Test

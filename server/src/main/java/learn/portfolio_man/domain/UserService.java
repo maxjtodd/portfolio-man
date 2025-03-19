@@ -19,6 +19,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+
+    public Result<User> findByEmail(String email) {
+        Result<User> result = new Result<>();
+
+        User fetchedUser = userRepository.getUserByEmail(email);
+
+        if (fetchedUser == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "User not found");
+        } else {
+            result.setPayload(fetchedUser);
+        }
+
+        return result;
+    }
+
+
     public Result<User> add(User toAdd) {
         Result<User> result = validate(toAdd);
 
