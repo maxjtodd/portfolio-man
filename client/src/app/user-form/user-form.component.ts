@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-form',
@@ -11,7 +11,13 @@ import { Router } from '@angular/router';
 })
 export class UserFormComponent {
 
-    constructor(private router: Router) {}
+    login!: boolean;
+
+    constructor(private router: Router, private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.login = this.route.snapshot.data['login'];
+    }
 
     authenticationService: AuthenticationService = inject(AuthenticationService);
 
@@ -23,13 +29,26 @@ export class UserFormComponent {
     });
 
     async submit() {
+
+        if (this.login) {
+            this.loginUser();
+        } else {
+            await this.signUp();
+        }
+        
+        this.router.navigate(['/']);
+    }
+
+    async signUp() {
         await this.authenticationService.signUp(
             this.userForm.value.firstName ?? '',
             this.userForm.value.lastName ?? '',
             this.userForm.value.email ?? '',
             this.userForm.value.password ?? '',
         );
-        
-        this.router.navigate(['/']);
+    }
+
+    loginUser() {
+        console.log('login');
     }
 }
