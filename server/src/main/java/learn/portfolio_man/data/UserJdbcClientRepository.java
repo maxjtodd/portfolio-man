@@ -20,6 +20,7 @@ public class UserJdbcClientRepository implements UserRepository {
 
     @Override
     public User getUserByEmail(String email) {
+        // TODO: login
         throw new UnsupportedOperationException("Unimplemented method 'getUserByEmail'");
     }
 
