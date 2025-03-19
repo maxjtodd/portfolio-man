@@ -19,6 +19,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+
+    public Result<User> findByEmail(String email) {
+        User fetchedUser = userRepository.getUserByEmail(email);
+        return singleUserToResult(fetchedUser);
+    }
+
+    public Result<User> findById(int userId) {
+        User fetchedUser = userRepository.getUserById(userId);
+        return singleUserToResult(fetchedUser);
+    }
+
+
     public Result<User> add(User toAdd) {
         Result<User> result = validate(toAdd);
 
@@ -35,6 +47,19 @@ public class UserService {
     }
 
 
+    private Result<User> singleUserToResult(User user) {
+
+        Result<User> result = new Result<>();
+
+        if (user == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "User not found");
+        } else {
+            result.setPayload(user);
+        }
+
+        return result;
+
+    }
 
     private Result<User> validate(User toValidate) {
         Result<User> result = new Result<>();
