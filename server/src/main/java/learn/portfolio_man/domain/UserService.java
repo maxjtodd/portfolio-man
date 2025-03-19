@@ -2,6 +2,7 @@ package learn.portfolio_man.domain;
 
 import org.springframework.stereotype.Service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import learn.portfolio_man.data.UserRepository;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.ResultStatus;
@@ -9,6 +10,8 @@ import learn.portfolio_man.models.User;
 
 @Service
 public class UserService {
+
+    private final int BCRYPT_COST = 12;
 
     private UserRepository userRepository;
 
@@ -20,6 +23,10 @@ public class UserService {
         Result<User> result = validate(toAdd);
 
         if (result.isSuccess()) {
+
+            char[] inputtedPassword = toAdd.getPassword().toCharArray();
+            toAdd.setPassword(BCrypt.withDefaults().hashToString(BCRYPT_COST, inputtedPassword));
+
             User added = userRepository.add(toAdd);
             result.setPayload(added);
         }
@@ -37,7 +44,18 @@ public class UserService {
             return result;
         }
 
+        if (toValidate.getEmail() == null || toValidate.getEmail().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Email is required");
+        }
         // TODO: when findByEmail implemented, unique email
+        
+        if (toValidate.getFirstName() == null || toValidate.getFirstName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "First name is required");
+        }
+
+        if (toValidate.getLastName() == null || toValidate.getLastName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Last name is required");
+        }
 
         return result;
     }
