@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.jsonwebtoken.Jwts;
 import learn.portfolio_man.domain.UserService;
 import learn.portfolio_man.models.Result;
@@ -40,6 +41,30 @@ public class UserController {
 
         Map<String, String> jwt = createJwt(result.getPayload());
         return new ResponseEntity<>(jwt, HttpStatus.CREATED);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> login(@RequestBody User user) {
+
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        // User not found
+        Result<User> result = userService.findByEmail(user.getEmail());
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        // Bad password
+        char[] inputtedPassword = user.getPassword().toCharArray();
+        char[] actualPassword = result.getPayload().getPassword().toCharArray();
+        if (!BCrypt.verifyer().verify(inputtedPassword, actualPassword).verified) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.UNAUTHORIZED, "Username and password mismatch");
+        }
+
+        // Good login
+        return new ResponseEntity<>(createJwt(result.getPayload()), HttpStatus.OK);
     }
 
     public Map<String, String> createJwt(User user) {
