@@ -70,5 +70,64 @@ public class PortfolioServiceTest {
 
     }
 
+
+
+    @Nested
+    class Add {
+
+        @Test
+        void shouldNotAddNull() {
+            Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "Portfolio is required");
+
+            Result<Portfolio> actual = service.add(null);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotAddForNonExistantUser() {
+            Portfolio toAdd = TestHelper.generatePortfolio(1);
+            when(userRepository.getUserById(toAdd.getUserId())).thenReturn(null);
+            Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "User does not exist");
+
+            Result<Portfolio> actual = service.add(toAdd);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotAddEmptyName() {
+            Portfolio toAdd1 = TestHelper.generatePortfolio(1);
+            Portfolio toAdd2 = TestHelper.generatePortfolio(1);
+            toAdd1.setName(null);
+            toAdd2.setName("");
+            when(userRepository.getUserById(toAdd1.getUserId())).thenReturn(TestHelper.generate_user(1));
+            Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "Name is required");
+
+            Result<Portfolio> actual1 = service.add(toAdd1);
+            Result<Portfolio> actual2 = service.add(toAdd2);
+
+            assertEquals(expected, actual1);
+            assertEquals(expected, actual2);
+        }
+
+        @Test
+        void shouldAdd() {
+            Portfolio toAdd = TestHelper.generatePortfolio(1);
+            toAdd.setPortfolioId(0);
+            Portfolio expectedAdded = TestHelper.generatePortfolio(1);
+            expectedAdded.setPortfolioId(TestHelper.NEXT_PORTFOLIO_ID);
+            when(userRepository.getUserById(toAdd.getUserId())).thenReturn(TestHelper.generate_user(1));
+            when(portfolioRepository.add(toAdd)).thenReturn(expectedAdded);
+            Result<Portfolio> expected = new Result<>();
+            expected.setPayload(expectedAdded);
+
+            Result<Portfolio> actual = service.add(toAdd);
+
+            assertEquals(expected, actual);
+        }
+
+    }
+
 }
 

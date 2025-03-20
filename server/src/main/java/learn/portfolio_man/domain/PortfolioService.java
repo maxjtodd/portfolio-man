@@ -38,5 +38,38 @@ public class PortfolioService {
 
         return result;
     }
+
+    public Result<Portfolio> add(Portfolio toAdd) {
+        Result<Portfolio> result = validate(toAdd);
+
+        if (result.isSuccess()) {
+            Portfolio added = portfolioRepository.add(toAdd);
+            result.setPayload(added);
+        }
+
+        return result;
+    }
+
+
+    private Result<Portfolio> validate(Portfolio toValidate) {
+
+        Result<Portfolio> result = new Result<>();
+
+        if (toValidate == null) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Portfolio is required");
+            return result;
+        }
+
+        User fetchedUser = userRepository.getUserById(toValidate.getUserId());
+        if (fetchedUser == null) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "User does not exist");
+        }
+
+        if (toValidate.getName() == null || toValidate.getName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Name is required");
+        }
+
+        return result;
+    }
     
 }
