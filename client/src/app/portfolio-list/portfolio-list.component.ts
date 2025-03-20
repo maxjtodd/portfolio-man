@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { AuthenticationService } from "../authentication.service";
 import { PortfolioService } from "../portfolio.service";
 import { Router } from "@angular/router";
+import { Portfolio } from "../portfolio";
 
 @Component({
     selector: "app-portfolio-list",
@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 })
 export class PortfolioListComponent {
 
+    portfolios: Portfolio[] = [];
 
     constructor(
         private portfolioService: PortfolioService,
@@ -18,7 +19,15 @@ export class PortfolioListComponent {
     ) { }
 
     ngOnInit() {
-        const portfolios = this.portfolioService.myPortfolios();
-        console.log(portfolios);
+        this.getPortfolios();
+    }
+
+    async getPortfolios() {
+        const fetchedPortfolios: Portfolio[] | null = await this.portfolioService.myPortfolios();
+        if (fetchedPortfolios === null) {
+            console.log("No portfolios or error");
+        } else {
+            this.portfolios = fetchedPortfolios;
+        }
     }
 }
