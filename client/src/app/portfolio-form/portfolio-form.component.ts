@@ -1,31 +1,48 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "../authentication.service";
+import { ReactiveFormsModule, FormGroup, FormControl } from "@angular/forms";
+import { PortfolioService } from "../portfolio.service";
+import { Portfolio } from "../portfolio";
 
 @Component({
-  selector: 'app-portfolio-form',
-  imports: [ReactiveFormsModule],
-  templateUrl: './portfolio-form.component.html',
-  styleUrl: './portfolio-form.component.css'
+    selector: "app-portfolio-form",
+    imports: [ReactiveFormsModule],
+    templateUrl: "./portfolio-form.component.html",
+    styleUrl: "./portfolio-form.component.css",
 })
 export class PortfolioFormComponent {
-
     portfolioForm = new FormGroup({
-        name: new FormControl(''),
-        private: new FormControl(true)
+        name: new FormControl(""),
+        private: new FormControl(true),
     });
 
-    constructor(private router:Router, private auth: AuthenticationService) {}
+    constructor(
+        private router: Router,
+        private auth: AuthenticationService,
+        private portfolioService: PortfolioService,
+    ) {}
 
     ngOnInit() {
         if (!this.auth.isLoggedIn()) {
-            this.router.navigate(['/'])
+            this.router.navigate(["/"]);
         }
     }
 
-    submit() {
-        console.log('submitted');
-    }
+    async submit() {
+        console.log("submitted");
+        const portfolio: Portfolio | null = await this.portfolioService.create(
+            this.portfolioForm.value.name ?? '',
+            this.portfolioForm.value.private!
+        );
 
+        if (portfolio === null) {
+            console.log("Portfolio form invalid")
+        }
+        else {
+            this.router.navigate(["/myPortfolios"])
+        }
+
+        console.log(portfolio);
+    }
 }

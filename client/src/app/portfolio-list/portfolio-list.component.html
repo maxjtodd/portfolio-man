@@ -7,7 +7,9 @@
             <h2>No portfolios to display</h2>
         }
         @else {
-            <app-portfolio-card *ngFor="let portfolio of portfolios" [portfolio]="portfolio"></app-portfolio-card>
+            <div class="card-group">
+                <app-portfolio-card *ngFor="let portfolio of portfolios" [portfolio]="portfolio"></app-portfolio-card>
+            </div>
         }
     </div>
     <div class="col-1"></div>
