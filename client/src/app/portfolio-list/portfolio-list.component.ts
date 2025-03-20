@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -7,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './portfolio-list.component.css'
 })
 export class PortfolioListComponent {
+
+    constructor(private authenticationService: AuthenticationService, private router:Router) {}
+
+    ngOnInit() {
+        if (!this.authenticationService.isLoggedIn()) {
+            this.router.navigate(['/']);
+        }
+    }
 
 }

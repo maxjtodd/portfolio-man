@@ -3,4 +3,5 @@ use portfolio;
 
 -- call set_known_good_state();
 
+select * from user;
 select * from portfolio;

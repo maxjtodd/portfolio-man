@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { UserFormComponent } from './user-form/user-form.component';
+import { PortfolioListComponent } from './portfolio-list/portfolio-list.component';
 
 export const routes: Routes = [
     {
@@ -19,5 +20,10 @@ export const routes: Routes = [
         component: UserFormComponent,
         data: {login: true},
         title: 'Log In'
+    },
+    {
+        path: 'myPortfolios',
+        component: PortfolioListComponent,
+        title: 'My Portfolios'
     }
 ];
