@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,6 @@ public class PortfolioController {
     @GetMapping("/myPortfolios")
     public ResponseEntity<Object> getUsersPortfolios(@RequestHeader Map<String, String> headers) {
 
-        // accepts auth headers, decode, get the user id
         Integer userId = signingKey.getUserIdFromAuthHeaders(headers);
         
         if (userId == null) {
@@ -49,8 +49,25 @@ public class PortfolioController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create() {
-        return null;
+    public ResponseEntity<Object> create(@RequestBody Portfolio toAdd, @RequestHeader Map<String, String> headers) {
+
+        Integer userId = signingKey.getUserIdFromAuthHeaders(headers);
+        
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // mismatching user id from auth to the userid in portfolio
+        if (userId.intValue() != toAdd.getUserId()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        Result<Portfolio> result = portfolioService.add(toAdd);
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
     
 }
