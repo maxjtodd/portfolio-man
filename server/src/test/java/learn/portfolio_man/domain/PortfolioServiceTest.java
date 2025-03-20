@@ -46,7 +46,7 @@ public class PortfolioServiceTest {
 
         @Test
         void shouldFindOne() {
-            when(userRepository.getUserById(1)).thenReturn(TestHelper.generate_user(1));
+            when(userRepository.getUserById(1)).thenReturn(TestHelper.generateUser(1));
             when(portfolioRepository.getUsersPortfolios(1)).thenReturn(List.of(TestHelper.generatePortfolio(1)));
             Result<List<Portfolio>> expected = new Result<>();
             expected.setPayload(List.of(TestHelper.generatePortfolio(1)));
@@ -58,7 +58,7 @@ public class PortfolioServiceTest {
 
         @Test
         void shouldFindMultiple() {
-            when(userRepository.getUserById(2)).thenReturn(TestHelper.generate_user(2));
+            when(userRepository.getUserById(2)).thenReturn(TestHelper.generateUser(2));
             when(portfolioRepository.getUsersPortfolios(2)).thenReturn(List.of(TestHelper.generatePortfolio(2), TestHelper.generatePortfolio(3)));
             Result<List<Portfolio>> expected = new Result<>();
             expected.setPayload(List.of(TestHelper.generatePortfolio(2), TestHelper.generatePortfolio(3)));
@@ -101,7 +101,7 @@ public class PortfolioServiceTest {
             Portfolio toAdd2 = TestHelper.generatePortfolio(1);
             toAdd1.setName(null);
             toAdd2.setName("");
-            when(userRepository.getUserById(toAdd1.getUserId())).thenReturn(TestHelper.generate_user(1));
+            when(userRepository.getUserById(toAdd1.getUserId())).thenReturn(TestHelper.generateUser(1));
             Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "Name is required");
 
             Result<Portfolio> actual1 = service.add(toAdd1);
@@ -117,7 +117,7 @@ public class PortfolioServiceTest {
             toAdd.setPortfolioId(0);
             Portfolio expectedAdded = TestHelper.generatePortfolio(1);
             expectedAdded.setPortfolioId(TestHelper.NEXT_PORTFOLIO_ID);
-            when(userRepository.getUserById(toAdd.getUserId())).thenReturn(TestHelper.generate_user(1));
+            when(userRepository.getUserById(toAdd.getUserId())).thenReturn(TestHelper.generateUser(1));
             when(portfolioRepository.add(toAdd)).thenReturn(expectedAdded);
             Result<Portfolio> expected = new Result<>();
             expected.setPayload(expectedAdded);

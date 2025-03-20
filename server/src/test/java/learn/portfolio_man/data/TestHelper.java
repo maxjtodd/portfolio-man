@@ -11,7 +11,7 @@ public class TestHelper {
     public static int NEXT_USER_ID = 4;
     public static int NEXT_PORTFOLIO_ID = 7;
 
-    public static User generate_user(int userId) {
+    public static User generateUser(int userId) {
         String email = String.format("test%d@test.com", userId);
         String firstName = String.format("f%d", userId);
         String lastName = String.format("l%d", userId);
