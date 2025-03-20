@@ -30,7 +30,7 @@ public class UserServiceTest {
 
         @Test
         void shouldFindEmail() {
-            User user = TestHelper.generate_user(1);
+            User user = TestHelper.generateUser(1);
             when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user);
             Result<User> expected = new Result<>();
             expected.setPayload(user);
@@ -42,7 +42,7 @@ public class UserServiceTest {
 
         @Test
         void shouldNotFindEmail() {
-            User user = TestHelper.generate_user(1);
+            User user = TestHelper.generateUser(1);
             Result<User> expected = new Result<>(ResultStatus.NOT_FOUND, "User not found");
 
             Result<User> actual = service.findByEmail(user.getEmail());
@@ -56,7 +56,7 @@ public class UserServiceTest {
 
         @Test
         void shouldFindId() {
-            User user = TestHelper.generate_user(1);
+            User user = TestHelper.generateUser(1);
             when(userRepository.getUserById(user.getUserId())).thenReturn(user);
             Result<User> expected = new Result<>();
             expected.setPayload(user);
@@ -68,7 +68,7 @@ public class UserServiceTest {
 
         @Test
         void shouldNotFindId() {
-            User user = TestHelper.generate_user(1);
+            User user = TestHelper.generateUser(1);
             Result<User> expected = new Result<>(ResultStatus.NOT_FOUND, "User not found");
 
             Result<User> actual = service.findById(user.getUserId());
@@ -91,9 +91,9 @@ public class UserServiceTest {
 
         @Test
         void shouldNotAddInvalidEmail() {
-            User toAdd1 = TestHelper.generate_user(1);
+            User toAdd1 = TestHelper.generateUser(1);
             toAdd1.setEmail(null);
-            User toAdd2 = TestHelper.generate_user(1);
+            User toAdd2 = TestHelper.generateUser(1);
             toAdd2.setEmail("");
             Result<User> expected = new Result<>(ResultStatus.BAD_REQUEST, "Email is required");
 
@@ -106,9 +106,9 @@ public class UserServiceTest {
 
         @Test
         void shouldNotAddInvalidFirstName() {
-            User toAdd1 = TestHelper.generate_user(1);
+            User toAdd1 = TestHelper.generateUser(1);
             toAdd1.setFirstName(null);
-            User toAdd2 = TestHelper.generate_user(1);
+            User toAdd2 = TestHelper.generateUser(1);
             toAdd2.setFirstName("");
             Result<User> expected = new Result<>(ResultStatus.BAD_REQUEST, "First name is required");
 
@@ -121,9 +121,9 @@ public class UserServiceTest {
 
         @Test
         void shouldNotAddInvalidLastName() {
-            User toAdd1 = TestHelper.generate_user(1);
+            User toAdd1 = TestHelper.generateUser(1);
             toAdd1.setLastName(null);
-            User toAdd2 = TestHelper.generate_user(1);
+            User toAdd2 = TestHelper.generateUser(1);
             toAdd2.setLastName("");
             Result<User> expected = new Result<>(ResultStatus.BAD_REQUEST, "Last name is required");
 
@@ -138,10 +138,10 @@ public class UserServiceTest {
         @Test
         void shouldAdd() {
             Result<User> expected = new Result<>();
-            expected.setPayload(TestHelper.generate_user(1));
-            User toAdd = TestHelper.generate_user(1);
+            expected.setPayload(TestHelper.generateUser(1));
+            User toAdd = TestHelper.generateUser(1);
             toAdd.setUserId(0);
-            when(userRepository.add(toAdd)).thenReturn(TestHelper.generate_user(1));
+            when(userRepository.add(toAdd)).thenReturn(TestHelper.generateUser(1));
 
             Result<User> actual = service.add(toAdd);
 
