@@ -1,1 +1,14 @@
 <h1 class="text-center">My Portfolios</h1>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+        @if(portfolios.length <= 0) {
+            <h2>No portfolios to display</h2>
+        }
+        @else {
+            <app-portfolio-card *ngFor="let portfolio of portfolios" [portfolio]="portfolio"></app-portfolio-card>
+        }
+    </div>
+    <div class="col-1"></div>
+</div>

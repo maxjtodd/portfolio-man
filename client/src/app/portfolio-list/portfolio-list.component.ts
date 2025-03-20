@@ -2,10 +2,12 @@ import { Component } from "@angular/core";
 import { PortfolioService } from "../portfolio.service";
 import { Router } from "@angular/router";
 import { Portfolio } from "../portfolio";
+import { PortfolioCardComponent } from "../portfolio-card/portfolio-card.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-portfolio-list",
-    imports: [],
+    imports: [PortfolioCardComponent, CommonModule],
     templateUrl: "./portfolio-list.component.html",
     styleUrl: "./portfolio-list.component.css",
 })
