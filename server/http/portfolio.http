@@ -1,0 +1,16 @@
+@url=http://localhost:8080/api/portfolio
+
+# Get users portfolios - happy path
+GET {{url}}/myPortfolios HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.Fso2aEdwuBTGeA6IJ1Y4oBtI8zh_t4MvHKu3BCjU3RY
+
+### 
+
+# Get users portfolios - unhappy path - bad auth header - unauthorized
+GET {{url}}/myPortfolios HTTP/1.1
+Authorization: 2
+
+### 
+
+# Get users portfolios - unhappy path - no auth header - unauthorized
+GET {{url}}/myPortfolios HTTP/1.1
