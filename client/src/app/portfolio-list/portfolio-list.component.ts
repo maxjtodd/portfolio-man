@@ -1,21 +1,24 @@
-import { Component } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { Component } from "@angular/core";
+import { AuthenticationService } from "../authentication.service";
+import { PortfolioService } from "../portfolio.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-portfolio-list',
-  imports: [],
-  templateUrl: './portfolio-list.component.html',
-  styleUrl: './portfolio-list.component.css'
+    selector: "app-portfolio-list",
+    imports: [],
+    templateUrl: "./portfolio-list.component.html",
+    styleUrl: "./portfolio-list.component.css",
 })
 export class PortfolioListComponent {
 
-    constructor(private authenticationService: AuthenticationService, private router:Router) {}
+
+    constructor(
+        private portfolioService: PortfolioService,
+        private router: Router,
+    ) { }
 
     ngOnInit() {
-        if (!this.authenticationService.isLoggedIn()) {
-            this.router.navigate(['/']);
-        }
+        const portfolios = this.portfolioService.myPortfolios();
+        console.log(portfolios);
     }
-
 }
