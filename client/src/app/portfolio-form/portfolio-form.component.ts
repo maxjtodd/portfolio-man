@@ -31,6 +31,7 @@ export class PortfolioFormComponent {
 
     async submit() {
         console.log("submitted");
+        console.log(this.portfolioForm.value.private!);
         const portfolio: Portfolio | null = await this.portfolioService.create(
             this.portfolioForm.value.name ?? '',
             this.portfolioForm.value.private!

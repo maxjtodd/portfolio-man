@@ -46,6 +46,8 @@ export class PortfolioService {
     }
 
     async create(name: string, isPrivate: boolean): Promise<Portfolio | null> {
+
+        console.log({userId: this.authService.getUserId(), name, isPrivate});
         
         if (!this.authService.isLoggedIn()) {
             this.router.navigate(["/"]);
@@ -57,7 +59,7 @@ export class PortfolioService {
                     "Content-Type": "application/json",
                     Authorization: this.authService.getJwt(),
                 },
-                body: JSON.stringify({userId: this.authService.getUserId(), name, isPrivate})
+                body: JSON.stringify({userId: this.authService.getUserId(), name, private: isPrivate})
             });
 
             if (res.status === 401 || res.status === 403) {
@@ -67,6 +69,7 @@ export class PortfolioService {
             }
 
             const content = await res.json();
+            console.log(content);
 
             if (res.status >= 400) {
                 this.errors = content;
