@@ -13,8 +13,8 @@ public class TestHelper {
 
     public static int NEXT_USER_ID = 4;
     public static int NEXT_PORTFOLIO_ID = 7;
-    public static int NEXT_STOCK_ID = 3;
-    public static int NEXT_HOLDING_ID = 3;
+    public static int NEXT_STOCK_ID = 4;
+    public static int NEXT_HOLDING_ID = 4;
 
 
     public static User generateUser(int userId) {

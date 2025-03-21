@@ -3,6 +3,8 @@ package learn.portfolio_man.data;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -67,6 +69,29 @@ public class HoldingJdbcClientRepositoryTest {
             Holding actual = repository.getByTicker(tmp.getStock().getTickerSymbol(), 2);
 
             assertNull(actual);
+        }
+
+    }
+
+    @Nested
+    class TestGetByPortfolioId {
+
+        @Test
+        void shouldFindOne() {
+            List<Holding> expected = List.of(TestHelper.generateHolding(1));
+
+            List<Holding> actual = repository.getAllHoldingsInPortfolio(1);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldFindMultiple() {
+            List<Holding> expected = List.of(TestHelper.generateHolding(2), TestHelper.generateHolding(3));
+
+            List<Holding> actual = repository.getAllHoldingsInPortfolio(2);
+
+            assertEquals(expected, actual);
         }
 
     }

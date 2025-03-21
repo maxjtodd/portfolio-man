@@ -1,5 +1,7 @@
 package learn.portfolio_man.data;
 
+import java.util.List;
+
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +43,12 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
     }
 
     @Override
-    public Holding getAllHoldingsInPortfolio(int portfolioId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getAllHoldingsInPortfolio'");
+    public List<Holding> getAllHoldingsInPortfolio(int portfolioId) {
+        final String sql = SELECT + "WHERE h.portfolio_id = ?;";
+        return jdbcClient.sql(sql)
+            .param(portfolioId)
+            .query(new HoldingMapper())
+            .list();
     }
 
     @Override
