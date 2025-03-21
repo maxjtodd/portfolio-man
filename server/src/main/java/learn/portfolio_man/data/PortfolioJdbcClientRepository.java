@@ -21,6 +21,16 @@ public class PortfolioJdbcClientRepository implements PortfolioRepository {
     }
 
     @Override
+    public Portfolio getPortfolioById(int portfolioId) {
+        final String sql = SELECT + "WHERE portfolio_id = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(portfolioId)
+            .query(new PortfolioMapper())
+            .optional().orElse(null);
+    }
+
+    @Override
     public List<Portfolio> getUsersPortfolios(int userId) {
         final String sql = SELECT + "WHERE user_id = ?;";
 
