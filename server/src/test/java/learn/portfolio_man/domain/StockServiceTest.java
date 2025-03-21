@@ -26,7 +26,7 @@ public class StockServiceTest {
     StockRepository stockRepository;
 
     @Nested
-    class TestGetById {
+    class GetById {
 
         @Test
         void shouldGetByID() {
@@ -52,9 +52,8 @@ public class StockServiceTest {
 
     }
 
-
     @Nested
-    class TestGetByTicker {
+    class GetByTicker {
 
         @Test
         void shouldGetByTicker() {
@@ -79,5 +78,65 @@ public class StockServiceTest {
         }
 
     }
+
+    @Nested
+    class Add {
+        
+        @Test
+        void shouldNotAddNull() {
+            Stock toAdd = null;
+            Result<Stock> expected = new Result<>(ResultStatus.BAD_REQUEST, "Stock is required");
+
+            Result<Stock> actual = service.add(toAdd);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotAddEmptyTicker() {
+            Stock toAdd1 = TestHelper.generateStock(1);
+            toAdd1.setStockId(0);
+            toAdd1.setTickerSymbol(null);
+            Stock toAdd2 = TestHelper.generateStock(1);
+            toAdd2.setStockId(0);
+            toAdd2.setTickerSymbol(null);
+
+            Result<Stock> expected = new Result<>(ResultStatus.BAD_REQUEST, "Ticker is required");
+
+            Result<Stock> actual1 = service.add(toAdd1);
+            Result<Stock> actual2 = service.add(toAdd2);
+
+            assertEquals(expected, actual1);
+            assertEquals(expected, actual2);
+        }
+
+        @Test
+        void shouldNotAddDuplicate() {
+            Stock toAdd = TestHelper.generateStock(1);
+            when(stockRepository.getByTicker(toAdd.getTickerSymbol())).thenReturn(toAdd);
+            Result<Stock> expected = new Result<>(ResultStatus.BAD_REQUEST, "Stock already exists");
+
+            Result<Stock> actual = service.add(toAdd);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldAdd() {
+            Stock toAdd = TestHelper.generateStock(1);
+            toAdd.setStockId(0);
+            Stock expectedStock = TestHelper.generateStock(1);
+            when(stockRepository.getByTicker(toAdd.getTickerSymbol())).thenReturn(null);
+            when(stockRepository.add(toAdd)).thenReturn(expectedStock);
+            Result<Stock> expected = new Result<>();
+            expected.setPayload(expectedStock);
+
+            Result<Stock> actual = service.add(toAdd);
+
+            assertEquals(expected, actual);
+        }
+
+    }
+
 }
 

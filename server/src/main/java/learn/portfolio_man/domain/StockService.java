@@ -41,7 +41,39 @@ public class StockService {
     }
 
     public Result<Stock> add(Stock toAdd) {
-        return null;
+        Result<Stock> result = validate(toAdd);
+
+        if (result.isSuccess()) {
+            Stock added = stockRepository.add(toAdd);
+            if (added == null) {
+                result.addMessage(ResultStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
+            } else {
+                result.setPayload(added);
+            }
+        }
+
+        return result;
     }
-    
+
+
+    private Result<Stock> validate(Stock toValidate) {
+        Result<Stock> result = new Result<>();
+
+        if (toValidate == null) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Stock is required");
+            return result;
+        }
+
+        if (toValidate.getTickerSymbol() == null || toValidate.getTickerSymbol().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Ticker is required");
+            return result;
+        }
+
+        if (stockRepository.getByTicker(toValidate.getTickerSymbol()) != null) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Stock already exists");
+        }
+
+        return result;
+    }
+
 }
