@@ -23,6 +23,20 @@ public class PortfolioService {
     }
 
 
+    public Result<Portfolio> getPortfolioById(int portfolioId) {
+        Result<Portfolio> result = new Result<>();
+
+        Portfolio fetchedPortfolio = portfolioRepository.getPortfolioById(portfolioId);
+
+        if (fetchedPortfolio == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "Portfolio not found");
+        } else {
+            result.setPayload(fetchedPortfolio);
+        }
+
+        return result;
+    }
+
 
     public Result<List<Portfolio>> getUsersPortfolios(int userId) {
 

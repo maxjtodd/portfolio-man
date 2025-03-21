@@ -31,6 +31,35 @@ public class PortfolioServiceTest {
     @MockBean
     UserRepository userRepository;
 
+
+    @Nested
+    class GetPortfolioById {
+
+        @Test
+        void shouldFindPortfolioById() {
+            Portfolio expectedPortfolio = TestHelper.generatePortfolio(1);
+            Result<Portfolio> expected = new Result<>();
+            expected.setPayload(expectedPortfolio);
+            when(portfolioRepository.getPortfolioById(expectedPortfolio.getPortfolioId())).thenReturn(expectedPortfolio);
+
+            Result<Portfolio> actual = service.getPortfolioById(1);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindPortfolioById() {
+            Result<Portfolio> expected = new Result<>(ResultStatus.NOT_FOUND, "Portfolio not found");
+            when(portfolioRepository.getPortfolioById(1)).thenReturn(null);
+
+            Result<Portfolio> actual = service.getPortfolioById(1);
+
+            assertEquals(expected, actual);
+        }
+
+    }
+
+
     @Nested
     class GetUsersPortfolios {
 
