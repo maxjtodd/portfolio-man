@@ -48,6 +48,27 @@ public class StockJdbcClientRepositoryTest {
 
     }
 
+    @Nested
+    class GetByTicker {
+
+        @Test
+        void shouldGetByTicker() {
+            Stock expected = TestHelper.generateStock(1);
+
+            Stock actual = repository.getByTicker(expected.getTickerSymbol());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotGetByTicker() {
+            Stock actual = repository.getByTicker(TestHelper.generateStock(TestHelper.NEXT_STOCK_ID).getTickerSymbol());
+
+            assertNull(actual);
+        }
+
+    }
+
 
 }
 

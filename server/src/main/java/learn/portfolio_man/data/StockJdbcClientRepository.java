@@ -28,7 +28,12 @@ public class StockJdbcClientRepository implements StockRepository {
 
     @Override
     public Stock getByTicker(String ticker) {
-        throw new UnsupportedOperationException("Unimplemented method 'getByTicker'");
+        final String sql = SELECT + "WHERE ticker_symbol = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(ticker)
+            .query(new StockMapper())
+            .optional().orElse(null);
     }
 
     @Override
