@@ -77,8 +77,19 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
     }
 
     @Override
-    public Holding edit(Holding toEdit) {
-        throw new UnsupportedOperationException("Unimplemented method 'edit'");
+    public Holding editAmount(Holding toEdit) {
+        final String sql = """
+        UPDATE holding SET 
+            amount = :amt
+        WHERE holding_id = :id;
+        """;
+
+        boolean edited = jdbcClient.sql(sql)
+            .param("amt", toEdit.getAmount())
+            .param("id", toEdit.getHoldingId())
+            .update() > 0;
+
+        return edited ? toEdit : null;
     }
 
     @Override

@@ -12,7 +12,7 @@ public interface HoldingRepository {
 
     public Holding add(Holding toAdd);
 
-    public Holding edit(Holding toEdit);
+    public Holding editAmount(Holding toEdit);
 
     public Holding delete(Holding toDelete);
     

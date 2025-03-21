@@ -3,6 +3,7 @@ package learn.portfolio_man.data;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -105,6 +106,18 @@ public class HoldingJdbcClientRepositoryTest {
         expected.setStock(TestHelper.generateStock(TestHelper.NEXT_STOCK_ID - 1));
 
         Holding actual = repository.add(toAdd);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldEdit() {
+        Holding toEdit = TestHelper.generateHolding(1);
+        toEdit.setAmount(new BigDecimal("2"));
+        Holding expected = TestHelper.generateHolding(1);
+        expected.setAmount(new BigDecimal("2"));
+        
+        Holding actual = repository.editAmount(toEdit);
 
         assertEquals(expected, actual);
     }
