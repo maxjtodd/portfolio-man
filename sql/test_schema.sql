@@ -28,7 +28,8 @@ create table portfolio (
 
 create table stock (
     stock_id int primary key auto_increment,
-    ticker_symbol varchar(10) unique not null
+    ticker_symbol varchar(10) unique not null,
+    company_name varchar(50) not null
 );
 
 create table holding (
@@ -73,9 +74,9 @@ begin
         (3, "Portfolio 5", false),
         (3, "Portfolio 6", true);
 
-    insert into stock(ticker_symbol) values
-        ("ST1"),
-        ("ST2");
+    insert into stock(ticker_symbol, company_name) values
+        ("ST1", "Company 1"),
+        ("ST2", "Company 2");
     insert into holding(portfolio_id, stock_id, amount) values
         (1, 1, 1),
         (2, 2, 1);

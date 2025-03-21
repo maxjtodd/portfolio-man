@@ -4,13 +4,15 @@ public class Stock {
 
     private int stockId;
     private String tickerSymbol;
+    private String companyName;
 
     public Stock() {
     }
 
-    public Stock(int stockId, String tickerSymbol) {
+    public Stock(int stockId, String tickerSymbol, String companyName) {
         this.stockId = stockId;
         this.tickerSymbol = tickerSymbol;
+        this.companyName = companyName;
     }
 
     public int getStockId() {
@@ -29,12 +31,21 @@ public class Stock {
         this.tickerSymbol = tickerSymbol;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + stockId;
         result = prime * result + ((tickerSymbol == null) ? 0 : tickerSymbol.hashCode());
+        result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
         return result;
     }
 
@@ -58,6 +69,13 @@ public class Stock {
                 return false;
             }
         } else if (!tickerSymbol.equals(other.tickerSymbol)) {
+            return false;
+        }
+        if (companyName == null) {
+            if (other.companyName != null) {
+                return false;
+            }
+        } else if (!companyName.equals(other.companyName)) {
             return false;
         }
         return true;
