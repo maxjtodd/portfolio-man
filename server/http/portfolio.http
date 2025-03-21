@@ -6,8 +6,7 @@
 
 # Get users portfolios - happy path
 GET {{url}}/myPortfolios HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.Fso2aEdwuBTGeA6IJ1Y4oBtI8zh_t4MvHKu3BCjU3RY
-
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.gxsuxXm4Kh1FexGDD_j60rb9RkozSV4vsj9b7Diwi6g
 ### 
 
 # Get users portfolios - unhappy path - bad auth header - unauthorized
@@ -26,12 +25,12 @@ GET {{url}}/myPortfolios HTTP/1.1
 # Create portfolio - happy path
 POST {{url}} HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.kP8FFpCtBdMCwo9cvF0q_b_OUT6In7RAgxfjA0jUWvo
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.5IvHGk_Dpc0F-2vg6-QopLdFw_LC2cyNZW_P0Xdz184
 
 {
     "userId": 1,
-    "name": "Portfolio 1",
-    "isPrivate": true
+    "name": "Portfolio 1jkljkljkljkl",
+    "private": true
 }
 
 ###

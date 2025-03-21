@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-3"></div>
+
+    <div class="col-6">
+
+        <h2 class="text-center">Create a Portfolio</h2>
+
+        <form [formGroup]="portfolioForm" (submit)="submit()">
+
+            <div class="form-group">
+                <label for="name-input">Name</label>
+                <input id="name-input" type="text" class="form-control" formControlName="name" /> 
+                <label for="private-input">Private <input id="private-input" type="checkbox" formControlName="private" /> </label>
+                
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-primary" routerLink="../">Cancel</a>
+
+        </form>
+
+    </div>
+
+    <div class="col-3"></div>
+</div>
