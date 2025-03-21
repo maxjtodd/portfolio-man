@@ -2,6 +2,8 @@ package learn.portfolio_man.data;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import learn.portfolio_man.models.Stock;
 
@@ -38,7 +40,20 @@ public class StockJdbcClientRepository implements StockRepository {
 
     @Override
     public Stock add(Stock toAdd) {
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        final String sql = "insert into stock(ticker_symbol) values (?);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int rowsAffected = jdbcClient.sql(sql)
+            .param(toAdd.getTickerSymbol())
+            .update(keyHolder);
+
+        if (rowsAffected != 1) {
+            return null;
+        }
+
+        toAdd.setStockId(keyHolder.getKey().intValue());
+        return toAdd;
     }
 
     

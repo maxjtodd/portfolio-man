@@ -69,6 +69,16 @@ public class StockJdbcClientRepositoryTest {
 
     }
 
+    @Test
+    void shouldAdd() {
+        Stock toAdd = TestHelper.generateStock(TestHelper.NEXT_STOCK_ID);
+        toAdd.setStockId(0);
+        Stock expected = TestHelper.generateStock(TestHelper.NEXT_STOCK_ID);
+
+        Stock actual = repository.add(toAdd);
+
+        assertEquals(expected, actual);
+    }
 
 }
 
