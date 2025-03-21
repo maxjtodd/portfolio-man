@@ -3,4 +3,5 @@ use portfolio;
 
 -- call set_known_good_state();
 
-select * from portfolio;
+
+select * from stock;
