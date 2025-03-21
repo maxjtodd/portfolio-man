@@ -3,6 +3,8 @@ package learn.portfolio_man.data;
 import java.util.List;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import learn.portfolio_man.models.Holding;
@@ -53,7 +55,25 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
 
     @Override
     public Holding add(Holding toAdd) {
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        final String sql = """
+        INSERT INTO holding(portfolio_id, stock_id, amount) VALUES
+            (:pid, :sid, :amt);
+        """;
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        int rowsAffected = jdbcClient.sql(sql)
+            .param("pid", toAdd.getPortfolioId())
+            .param("sid", toAdd.getStock().getStockId())
+            .param("amt", toAdd.getAmount())
+            .update(keyHolder);
+
+        if (rowsAffected != 1) {
+            return null;
+        }
+
+        toAdd.setHoldingId(keyHolder.getKey().intValue());
+        return toAdd;
     }
 
     @Override

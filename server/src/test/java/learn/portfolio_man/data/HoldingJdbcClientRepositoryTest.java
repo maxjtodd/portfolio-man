@@ -95,5 +95,19 @@ public class HoldingJdbcClientRepositoryTest {
         }
 
     }
+
+    @Test
+    void shouldAdd() {
+        Holding toAdd = TestHelper.generateHolding(TestHelper.NEXT_HOLDING_ID);
+        toAdd.setStock(TestHelper.generateStock(TestHelper.NEXT_STOCK_ID - 1));
+        toAdd.setHoldingId(0);
+        Holding expected = TestHelper.generateHolding(TestHelper.NEXT_HOLDING_ID);
+        expected.setStock(TestHelper.generateStock(TestHelper.NEXT_STOCK_ID - 1));
+
+        Holding actual = repository.add(toAdd);
+
+        assertEquals(expected, actual);
+    }
+
 }
 
