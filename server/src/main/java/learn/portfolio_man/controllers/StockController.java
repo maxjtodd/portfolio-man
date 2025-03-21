@@ -43,7 +43,13 @@ public class StockController {
 
     @GetMapping("/{ticker}")
     public ResponseEntity<Object> getStockByTicker(@PathVariable String ticker) {
-        return null;
+        Result<Stock> result = stockService.getByTicker(ticker);
+
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @PostMapping
