@@ -18,7 +18,12 @@ public class StockJdbcClientRepository implements StockRepository {
 
     @Override
     public Stock getById(int stockId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        final String sql = SELECT + "WHERE stock_id = ?;";
+
+        return jdbcClient.sql(sql)
+            .param(stockId)
+            .query(new StockMapper())
+            .optional().orElse(null);
     }
 
     @Override
