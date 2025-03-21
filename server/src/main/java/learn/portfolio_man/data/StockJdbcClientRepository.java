@@ -10,7 +10,7 @@ import learn.portfolio_man.models.Stock;
 @Repository
 public class StockJdbcClientRepository implements StockRepository {
 
-    private final String SELECT = "SELECT stock_id, ticker_symbol FROM stock ";
+    private final String SELECT = "SELECT stock_id, ticker_symbol, company_name FROM stock ";
 
     private JdbcClient jdbcClient;
 
@@ -40,12 +40,13 @@ public class StockJdbcClientRepository implements StockRepository {
 
     @Override
     public Stock add(Stock toAdd) {
-        final String sql = "insert into stock(ticker_symbol) values (?);";
+        final String sql = "insert into stock(ticker_symbol, company_name) values (:ts, :cn);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int rowsAffected = jdbcClient.sql(sql)
-            .param(toAdd.getTickerSymbol())
+            .param("ts", toAdd.getTickerSymbol())
+            .param("cn", toAdd.getCompanyName())
             .update(keyHolder);
 
         if (rowsAffected != 1) {
