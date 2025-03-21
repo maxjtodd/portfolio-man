@@ -14,6 +14,6 @@ public interface HoldingRepository {
 
     public Holding editAmount(Holding toEdit);
 
-    public Holding delete(Holding toDelete);
+    public boolean deleteById(int holdingId);
     
 }

@@ -93,8 +93,10 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
     }
 
     @Override
-    public Holding delete(Holding toDelete) {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public boolean deleteById(int holdingId) {
+        return jdbcClient.sql("DELETE FROM holding WHERE holding_id = ?;")
+            .param(holdingId)
+            .update() > 0;
     }
 
     

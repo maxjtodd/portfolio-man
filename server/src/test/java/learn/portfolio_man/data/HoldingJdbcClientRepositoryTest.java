@@ -1,7 +1,9 @@
 package learn.portfolio_man.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -120,6 +122,21 @@ public class HoldingJdbcClientRepositoryTest {
         Holding actual = repository.editAmount(toEdit);
 
         assertEquals(expected, actual);
+    }
+
+    @Nested
+    class TestDeleteById {
+
+        @Test
+        void shouldDelete() {
+            assertTrue(repository.deleteById(1));
+        }
+
+        @Test
+        void shouldNotDelete() {
+            assertFalse(repository.deleteById(TestHelper.NEXT_HOLDING_ID));
+        }
+
     }
 
 }
