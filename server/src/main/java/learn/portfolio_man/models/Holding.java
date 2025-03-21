@@ -91,7 +91,7 @@ public class Holding {
             if (other.amount != null) {
                 return false;
             }
-        } else if (!amount.equals(other.amount)) {
+        } else if (!(amount.compareTo(other.amount) == 0)) {
             return false;
         }
         return true;

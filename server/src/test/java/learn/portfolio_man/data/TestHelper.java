@@ -1,8 +1,10 @@
 package learn.portfolio_man.data;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.Portfolio;
 import learn.portfolio_man.models.Stock;
 import learn.portfolio_man.models.User;
@@ -12,6 +14,7 @@ public class TestHelper {
     public static int NEXT_USER_ID = 4;
     public static int NEXT_PORTFOLIO_ID = 7;
     public static int NEXT_STOCK_ID = 3;
+    public static int NEXT_HOLDING_ID = 3;
 
 
     public static User generateUser(int userId) {
@@ -33,6 +36,13 @@ public class TestHelper {
         String tickerSymbol = String.format("ST%d", stockId);
         String companyName = String.format("Company %d", stockId);
         return new Stock(stockId, tickerSymbol, companyName);
+    }
+
+    public static Holding generateHolding(int holdingId) {
+        int portfolioId = holdingId == 1 ? 1 : 2;
+        BigDecimal amount = BigDecimal.valueOf(1.00);
+        Stock stock = generateStock(holdingId);
+        return new Holding(holdingId, portfolioId, stock, amount);
     }
 
 

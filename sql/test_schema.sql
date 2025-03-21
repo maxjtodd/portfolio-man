@@ -78,8 +78,8 @@ begin
         ("ST1", "Company 1"),
         ("ST2", "Company 2");
     insert into holding(portfolio_id, stock_id, amount) values
-        (1, 1, 1),
-        (2, 2, 1);
+        (1, 1, 1.00),
+        (2, 2, 1.00);
 
 
 end//

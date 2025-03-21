@@ -8,6 +8,13 @@ import learn.portfolio_man.models.Holding;
 @Repository
 public class HoldingJdbcClientRepository implements HoldingRepository {
 
+    private final String SELECT = """
+    SELECT h.holding_id, h.portfolio_id, h.amount,
+        s.stock_id, s.ticker_symbol, s.company_name
+    FROM holding AS h
+    JOIN stock AS s ON s.stock_id = h.stock_id 
+    """;
+
     private JdbcClient jdbcClient;
 
     public HoldingJdbcClientRepository(JdbcClient jdbcClient) {
@@ -16,7 +23,11 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
 
     @Override
     public Holding getById(int holdingId) {
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        final String sql = SELECT + "WHERE h.holding_id = ?;";
+        return jdbcClient.sql(sql)
+            .param(holdingId)
+            .query(new HoldingMapper())
+            .optional().orElse(null);
     }
 
     @Override
