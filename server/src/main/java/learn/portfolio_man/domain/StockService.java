@@ -73,6 +73,11 @@ public class StockService {
             result.addMessage(ResultStatus.BAD_REQUEST, "Stock already exists");
         }
 
+        if (toValidate.getCompanyName() == null || toValidate.getCompanyName().isBlank()) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Company name is required");
+            return result;
+        }
+
         return result;
     }
 

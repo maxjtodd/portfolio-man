@@ -28,7 +28,8 @@ create table portfolio (
 
 create table stock (
     stock_id int primary key auto_increment,
-    ticker_symbol varchar(10) unique not null
+    ticker_symbol varchar(10) unique not null,
+    company_name varchar(50) not null
 );
 
 create table holding (

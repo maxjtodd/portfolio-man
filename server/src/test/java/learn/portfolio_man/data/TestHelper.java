@@ -31,7 +31,8 @@ public class TestHelper {
 
     public static Stock generateStock(int stockId) {
         String tickerSymbol = String.format("ST%d", stockId);
-        return new Stock(stockId, tickerSymbol);
+        String companyName = String.format("Company %d", stockId);
+        return new Stock(stockId, tickerSymbol, companyName);
     }
 
 

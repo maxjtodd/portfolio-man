@@ -99,7 +99,7 @@ public class StockServiceTest {
             toAdd1.setTickerSymbol(null);
             Stock toAdd2 = TestHelper.generateStock(1);
             toAdd2.setStockId(0);
-            toAdd2.setTickerSymbol(null);
+            toAdd2.setTickerSymbol("");
 
             Result<Stock> expected = new Result<>(ResultStatus.BAD_REQUEST, "Ticker is required");
 
@@ -119,6 +119,24 @@ public class StockServiceTest {
             Result<Stock> actual = service.add(toAdd);
 
             assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotAddEmptyCompanyName() {
+            Stock toAdd1 = TestHelper.generateStock(1);
+            toAdd1.setStockId(0);
+            toAdd1.setCompanyName(null);
+            Stock toAdd2 = TestHelper.generateStock(1);
+            toAdd2.setStockId(0);
+            toAdd2.setCompanyName("");
+
+            Result<Stock> expected = new Result<>(ResultStatus.BAD_REQUEST, "Company name is required");
+
+            Result<Stock> actual1 = service.add(toAdd1);
+            Result<Stock> actual2 = service.add(toAdd2);
+
+            assertEquals(expected, actual1);
+            assertEquals(expected, actual2);
         }
 
         @Test
