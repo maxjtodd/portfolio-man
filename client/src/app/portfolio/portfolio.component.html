@@ -1,0 +1,47 @@
+@if(!portfolio) {
+<div>
+    <h1>Portfolio not found</h1>
+</div>
+}
+@else {
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+
+            <h1>{{portfolio!.name}}</h1>
+
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success">Buy</button>
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-danger">Sell</button>
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-info">Settings</button>
+        </div>
+        
+    </div>
+
+    <div class="row">
+
+        <div class="col-8">
+
+            <h4>Performance</h4>
+
+        </div>
+
+        <div class="col-4">
+
+            <h4>Holdings</h4>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+}

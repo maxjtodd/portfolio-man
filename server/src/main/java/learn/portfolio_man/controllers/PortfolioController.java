@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -30,6 +31,23 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
         this.signingKey = signingKey;
     }
+
+
+    @GetMapping("/{portfolioId}")
+    public ResponseEntity<Object> getPortfolio(@PathVariable int portfolioId, @RequestHeader Map<String, String> headers) {
+
+        // TODO: When friends are implemented, make sure that the user has permission to view
+        Integer userId = signingKey.getUserIdFromAuthHeaders(headers);
+
+        Result<Portfolio> result = portfolioService.getPortfolioById(portfolioId);
+
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
 
     @GetMapping("/myPortfolios")
     public ResponseEntity<Object> getUsersPortfolios(@RequestHeader Map<String, String> headers) {

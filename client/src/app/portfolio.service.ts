@@ -15,6 +15,25 @@ export class PortfolioService {
         private router: Router,
     ) { }
 
+    async getPortfolioById(portfolioId: number): Promise<Portfolio | null> {
+        const res = await fetch(`http://localhost:8080/api/portfolio/${portfolioId}`, {
+            method: "GET",
+            headers: {
+                Authorization: this.authService.getJwt(),
+            }
+        });
+
+        const content = await res.json();
+
+        if (res.status >= 400) {
+            this.errors = content;
+            return null;
+        }
+
+        return content;
+
+    }
+
     async myPortfolios(): Promise<Portfolio[] | null> {
 
         if (!this.authService.isLoggedIn()) {

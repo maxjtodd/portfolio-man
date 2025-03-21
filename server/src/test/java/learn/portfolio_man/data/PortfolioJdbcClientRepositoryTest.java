@@ -1,6 +1,7 @@
 package learn.portfolio_man.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -26,6 +27,27 @@ public class PortfolioJdbcClientRepositoryTest {
     @BeforeEach
     void setup() {
         jdbcClient.sql("call set_known_good_state();").update();
+    }
+
+    @Nested
+    class GetPortfolioById {
+        
+        @Test
+        void shouldFindPortfolioById() {
+            Portfolio expected = TestHelper.generatePortfolio(1);
+
+            Portfolio actual = repository.getPortfolioById(1);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindPortfolioById() {
+            Portfolio actual = repository.getPortfolioById(TestHelper.NEXT_PORTFOLIO_ID);
+
+            assertNull(actual);
+        }
+
     }
 
     @Nested

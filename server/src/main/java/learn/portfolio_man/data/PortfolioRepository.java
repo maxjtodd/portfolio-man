@@ -6,6 +6,7 @@ import learn.portfolio_man.models.Portfolio;
 
 public interface PortfolioRepository {
 
+    public Portfolio getPortfolioById(int portfolioId);
     public List<Portfolio> getUsersPortfolios(int userId);
     public List<Portfolio> getPublicPortfolios();
     public List<Portfolio> getUserListsPortfolios(List<Integer> userIds);
