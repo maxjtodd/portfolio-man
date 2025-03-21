@@ -54,7 +54,19 @@ public class StockController {
 
     @PostMapping
     public ResponseEntity<Object> createStock(@RequestBody Stock toAdd, @RequestHeader Map<String, String> headers) {
-        return null;
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Result<Stock> result = stockService.add(toAdd);
+
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
     
 }

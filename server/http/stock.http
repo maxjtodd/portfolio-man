@@ -25,3 +25,38 @@ GET {{url}}/AAPL HTTP/1.1
 
 # Get by ticker - unhappy path - cant find
 GET {{url}}/JDKLAJFKLDAJKL HTTP/1.1
+
+##################################################
+###                     Add                    ###
+##################################################
+
+# Add - happy path
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.IXWmm6xpIVpWl_pFLpapGXHxJFphD05StArVLpLOwUE
+
+{
+    "tickerSymbol": "GOOG"
+}
+
+###
+
+# Add - unhappy path - bad auth - 401
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: dfjsklfjkl
+
+{
+    "tickerSymbol": "GOOG2"
+}
+
+###
+
+# Add - unhappy path - duplicate - 400
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.IXWmm6xpIVpWl_pFLpapGXHxJFphD05StArVLpLOwUE
+
+{
+    "tickerSymbol": "GOOG"
+}
