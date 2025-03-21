@@ -1,0 +1,10 @@
+@url=http://localhost:8080/api/stock
+
+# Get stock by id - happy path
+GET {{url}}/id/1 HTTP/1.1
+
+###
+
+# Get stock by id - unhappy path - cant find
+
+GET {{url}}/id/100 HTTP/1.1
