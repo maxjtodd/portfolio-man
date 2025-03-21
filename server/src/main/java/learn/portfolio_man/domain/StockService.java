@@ -28,8 +28,16 @@ public class StockService {
         return result;
     }
 
-    public Result<Stock> getByTickerSymbol(String tickerSymbol) {
-        return null;
+    public Result<Stock> getByTicker(String tickerSymbol) {
+        Result<Stock> result = new Result<>();
+        Stock fetchedStock = stockRepository.getByTicker(tickerSymbol);
+        if (fetchedStock == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "Stock not found");
+        } else {
+            result.setPayload(fetchedStock);
+        }
+
+        return result;
     }
 
     public Result<Stock> add(Stock toAdd) {

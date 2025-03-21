@@ -51,5 +51,33 @@ public class StockServiceTest {
         }
 
     }
+
+
+    @Nested
+    class TestGetByTicker {
+
+        @Test
+        void shouldGetByTicker() {
+            Stock expectedStock = TestHelper.generateStock(1);
+            Result<Stock> expected = new Result<>();
+            expected.setPayload(expectedStock);
+            when(stockRepository.getByTicker(expectedStock.getTickerSymbol())).thenReturn(expectedStock);
+
+            Result<Stock> actual = service.getByTicker(expectedStock.getTickerSymbol());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotGetByTicker() {
+            Result<Stock> expected = new Result<>(ResultStatus.NOT_FOUND, "Stock not found");
+            when(stockRepository.getByTicker(TestHelper.generateStock(1).getTickerSymbol())).thenReturn(null);
+
+            Result<Stock> actual = service.getByTicker(TestHelper.generateStock(1).getTickerSymbol());
+
+            assertEquals(expected, actual);
+        }
+
+    }
 }
 
