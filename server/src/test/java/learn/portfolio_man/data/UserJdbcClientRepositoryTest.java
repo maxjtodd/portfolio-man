@@ -32,7 +32,7 @@ public class UserJdbcClientRepositoryTest {
 
         @Test
         void shouldFindEmail() {
-            User expected = TestHelper.generate_user(1);
+            User expected = TestHelper.generateUser(1);
 
             User actual = repository.getUserByEmail(expected.getEmail());
 
@@ -53,7 +53,7 @@ public class UserJdbcClientRepositoryTest {
         
         @Test
         void shouldFindId() {
-            User expected = TestHelper.generate_user(1);
+            User expected = TestHelper.generateUser(1);
 
             User actual = repository.getUserById(expected.getUserId());
 
@@ -71,9 +71,9 @@ public class UserJdbcClientRepositoryTest {
 
     @Test
     void shouldAdd() {
-        User toAdd = TestHelper.generate_user(TestHelper.NEXT_USER_ID);
+        User toAdd = TestHelper.generateUser(TestHelper.NEXT_USER_ID);
         toAdd.setUserId(0);
-        User expected = TestHelper.generate_user(TestHelper.NEXT_USER_ID);
+        User expected = TestHelper.generateUser(TestHelper.NEXT_USER_ID);
 
         User actual = repository.add(toAdd);
 

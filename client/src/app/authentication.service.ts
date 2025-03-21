@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,11 @@ export class AuthenticationService {
 
     getJwt(): string {
         return this.jwt
+    }
+
+    getUserId() {
+        const decoded: User = jwtDecode(this.jwt);
+        return decoded.userId;
     }
 
     loadJwtOnStartup(): void {
