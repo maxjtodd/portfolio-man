@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { AuthenticationService } from "../authentication.service";
 import { ReactiveFormsModule, FormGroup, FormControl } from "@angular/forms";
 import { PortfolioService } from "../portfolio.service";
@@ -7,7 +7,7 @@ import { Portfolio } from "../portfolio";
 
 @Component({
     selector: "app-portfolio-form",
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, RouterModule],
     templateUrl: "./portfolio-form.component.html",
     styleUrl: "./portfolio-form.component.css",
 })
