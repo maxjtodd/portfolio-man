@@ -47,5 +47,28 @@ public class HoldingJdbcClientRepositoryTest {
         }
 
     }
+
+    @Nested
+    class TestGetByTicker {
+
+        @Test
+        void shouldFindByTicker() {
+            Holding expected = TestHelper.generateHolding(1);
+
+            Holding actual = repository.getByTicker(expected.getStock().getTickerSymbol(), expected.getPortfolioId());
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotFindByTicker() {
+            Holding tmp = TestHelper.generateHolding(1);
+
+            Holding actual = repository.getByTicker(tmp.getStock().getTickerSymbol(), 2);
+
+            assertNull(actual);
+        }
+
+    }
 }
 

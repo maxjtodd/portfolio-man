@@ -5,7 +5,7 @@ import learn.portfolio_man.models.Holding;
 public interface HoldingRepository {
 
     public Holding getById(int holdingId);
-    public Holding getByTicker(String ticker);
+    public Holding getByTicker(String ticker, int portfolioId);
     public Holding getAllHoldingsInPortfolio(int portfolioId);
 
     public Holding add(Holding toAdd);

@@ -31,8 +31,13 @@ public class HoldingJdbcClientRepository implements HoldingRepository {
     }
 
     @Override
-    public Holding getByTicker(String ticker) {
-        throw new UnsupportedOperationException("Unimplemented method 'getByTicker'");
+    public Holding getByTicker(String ticker, int portfolioId) {
+        final String sql = SELECT + "WHERE s.ticker_symbol = :ticker AND h.portfolio_id = :pid;";
+        return jdbcClient.sql(sql)
+            .param("ticker", ticker)
+            .param("pid", portfolioId)
+            .query(new HoldingMapper())
+            .optional().orElse(null);
     }
 
     @Override
