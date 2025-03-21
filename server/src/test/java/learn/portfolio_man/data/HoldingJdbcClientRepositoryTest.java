@@ -97,6 +97,15 @@ public class HoldingJdbcClientRepositoryTest {
             assertEquals(expected, actual);
         }
 
+        @Test
+        void shouldFindNone() {
+            List<Holding> expected = List.of();
+
+            List<Holding> actual = repository.getAllHoldingsInPortfolio(TestHelper.NEXT_PORTFOLIO_ID);
+
+            assertEquals(expected, actual);
+        }
+
     }
 
     @Test
