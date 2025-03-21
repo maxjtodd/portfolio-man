@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;" [routerLink]="['../portfolios', portfolio.portfolioId]">
+<div class="card" style="width: 18rem;" [routerLink]="['../portfolios', portfolio.portfolioId]" [state]="portfolio">
     <div class="card-body">
         <h4 class="card-title">{{portfolio.name}} {{portfolio.private ? "(private)" : "" }}</h4>
         <h5 class="card-subtitle">user {{portfolio.userId}}</h5>
