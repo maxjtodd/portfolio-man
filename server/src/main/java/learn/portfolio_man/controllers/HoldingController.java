@@ -62,6 +62,7 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        // TODO: make sure enough portfolio balance
         Holding toBuy = holdingRequestToHolding(holdingRequest);
         Result<Holding> boughtResult = holdingService.buy(toBuy);
 
@@ -88,6 +89,17 @@ public class HoldingController {
         }
 
         return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{ticker}")
+    public ResponseEntity<Object> searchTicker(@PathVariable ticker, @RequestHeader Map<String, String> headers) {
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+
+        return null;
     }
 
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {
