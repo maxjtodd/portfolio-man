@@ -61,3 +61,10 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 {
     "tickerSymbol": "GOOG"
 }
+
+
+
+###
+# Test yahoo finance
+GET {{url}}/ext/AA
+

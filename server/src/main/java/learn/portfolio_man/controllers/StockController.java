@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.StockService;
+import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
 
@@ -24,10 +25,12 @@ public class StockController {
 
     private StockService stockService;
     private SecretSigningKey secretSigningKey;
+    private YahooFinance yahooFinance;
 
-    public StockController(StockService stockService, SecretSigningKey secretSigningKey) {
+    public StockController(StockService stockService, SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
         this.stockService = stockService;
         this.secretSigningKey = secretSigningKey;
+        this.yahooFinance = yahooFinance;
     }
 
     @GetMapping("/id/{stockId}")
@@ -50,6 +53,14 @@ public class StockController {
         }
 
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ext/{ticker}")
+    public ResponseEntity<Object> search(@PathVariable String ticker) {
+        
+        yahooFinance.search(ticker);
+
+        return null;
     }
 
     @PostMapping
