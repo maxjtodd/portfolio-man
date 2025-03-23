@@ -32,6 +32,8 @@ public class SecretSigningKey {
             return null;
         }
 
+        // TODO: make sure  that the userId exists
+
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key)
                 .build().parseClaimsJws(authorization);

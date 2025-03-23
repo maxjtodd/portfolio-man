@@ -1,7 +1,9 @@
 package learn.portfolio_man.controllers;
 
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.HoldingService;
+import learn.portfolio_man.models.Holding;
+import learn.portfolio_man.models.Result;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,10 +31,19 @@ public class HoldingController {
 
     @GetMapping("/{portfolioId}")
     public ResponseEntity<Object> getPortfolioHoldings(@PathVariable int portfolioId, @RequestHeader Map<String, String> headers) {
+
         Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        // TODO: make sure that the user has authority to access the portfolio
 
+        Result<List<Holding>> result = holdingService.getPortfoliosHoldings(portfolioId);
+        if (!result.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(result);
+        }
 
-        return null;
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
     
 
