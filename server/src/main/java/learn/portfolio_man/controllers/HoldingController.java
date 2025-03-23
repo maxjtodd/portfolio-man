@@ -92,7 +92,7 @@ public class HoldingController {
     }
 
     @GetMapping("/search/{ticker}")
-    public ResponseEntity<Object> searchTicker(@PathVariable ticker, @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<Object> searchTicker(@PathVariable String ticker, @RequestHeader Map<String, String> headers) {
         Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
         if (userId == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
