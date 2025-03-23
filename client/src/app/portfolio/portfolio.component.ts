@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Portfolio } from "../portfolio";
 import { PortfolioService } from "../portfolio.service";
 
 @Component({
     selector: "app-portfolio",
-    imports: [],
+    imports: [RouterModule],
     templateUrl: "./portfolio.component.html",
     styleUrl: "./portfolio.component.css",
 })
