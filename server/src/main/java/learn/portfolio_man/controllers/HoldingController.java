@@ -69,10 +69,26 @@ public class HoldingController {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
         }
 
-        return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.CREATED);
+        return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
     }
     
+    @PostMapping("/sell")
+    public ResponseEntity<Object> sell(@RequestBody HoldingRequest holdingRequest, @RequestHeader Map<String, String> headers) {
 
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Holding toSell = holdingRequestToHolding(holdingRequest);
+        Result<Holding> boughtResult = holdingService.sell(toSell);
+
+        if (!boughtResult.isSuccess()) {
+            return ControllerHelper.errorResultToResponseEntity(boughtResult);
+        }
+
+        return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
+    }
 
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {
         Holding holding = new Holding();
@@ -82,7 +98,7 @@ public class HoldingController {
         Result<Stock> result = stockService.getByTicker(toConvert.getTicker());
         Stock stock = null;
         if (!result.isSuccess()) {
-            // TODO: Add stock to DB
+            // TODO: Add stock to DB through yahoo finance api call for searching
         } else {
             stock = result.getPayload();
         }
