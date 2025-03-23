@@ -1,1 +1,8 @@
-<p>stock-search works!</p>
+<h3>Search</h3>
+<ul>
+    <app-stock-search-suggestion 
+        *ngFor="let searchSuggestion of this.searchResults"
+        [stockSearch]="searchSuggestion">
+    </app-stock-search-suggestion>
+
+</ul>
