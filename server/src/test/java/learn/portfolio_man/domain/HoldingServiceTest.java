@@ -140,6 +140,86 @@ public class HoldingServiceTest {
     }
 
 
+    @Nested
+    class Sell {
+
+        @Test
+        void shouldNotSellDoesntOwn() {
+            Holding toSell = TestHelper.generateHolding(1);
+            setGoodRepositoryStubs(toSell);
+            when(holdingRepository.getByTicker(toSell.getStock().getTickerSymbol(), toSell.getPortfolioId())).thenReturn(null);
+            Result<Holding> expected = new Result<>(ResultStatus.BAD_REQUEST, "Cannot sell a stock not owned by this portfolio");
+
+            Result<Holding> actual = service.sell(toSell); 
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldNotSellBadAmount() {
+            Holding toSell = TestHelper.generateHolding(1);
+            setGoodRepositoryStubs(toSell);
+            when(holdingRepository.getByTicker(toSell.getStock().getTickerSymbol(), toSell.getPortfolioId()))
+                .thenReturn(TestHelper.generateHolding(1));
+            toSell.setAmount(toSell.getAmount().add(new BigDecimal(1)));
+            Result<Holding> expected = new Result<>(ResultStatus.BAD_REQUEST, "Cannot sell more than this portfolio owns");
+
+            Result<Holding> actual = service.sell(toSell); 
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldSellSome() {
+            Holding toSell = TestHelper.generateHolding(1);
+            setGoodRepositoryStubs(toSell);
+
+            BigDecimal amountSelling = new BigDecimal("0.9");
+            BigDecimal amountAfterSell = toSell.getAmount().subtract(amountSelling);
+            toSell.setAmount(amountSelling);
+
+            Holding beforeSell = TestHelper.generateHolding(1);
+
+            when(holdingRepository.getByTicker(toSell.getStock().getTickerSymbol(), toSell.getPortfolioId()))
+                .thenReturn(beforeSell);
+
+            Holding afterSell = TestHelper.generateHolding(1);
+            afterSell.setAmount(amountAfterSell);
+
+            when (holdingRepository.editAmount(afterSell)).thenReturn(afterSell);
+
+            Holding expectedHolding = TestHelper.generateHolding(1);
+            expectedHolding.setAmount(amountAfterSell);
+
+            Result<Holding> expected = new Result<>();
+            expected.setPayload(expectedHolding);
+
+            Result<Holding> actual = service.sell(toSell); 
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldSellAll() {
+            Holding toSell = TestHelper.generateHolding(1);
+            setGoodRepositoryStubs(toSell);
+
+            Holding existing = TestHelper.generateHolding(1);
+
+            when(holdingRepository.getByTicker(toSell.getStock().getTickerSymbol(), toSell.getPortfolioId()))
+                .thenReturn(existing);
+
+            // to tell its deleting, make sure deleting doesn't work
+            when(holdingRepository.deleteById(existing.getHoldingId())).thenReturn(false);
+
+            Result<Holding> expected = new Result<>(ResultStatus.INTERNAL_SERVER_ERROR, "Something get wrong selling all");
+
+            Result<Holding> actual = service.sell(toSell);
+
+            assertEquals(expected, actual);
+        }
+
+    }
 
 
 

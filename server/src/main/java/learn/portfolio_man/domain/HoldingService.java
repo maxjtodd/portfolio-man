@@ -50,6 +50,44 @@ public class HoldingService {
 
         return result;
     }
+
+    public Result<Holding> sell(Holding toSell) {
+        Result<Holding> result = validate(toSell);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        Holding existing = holdingRepository.getByTicker(toSell.getStock().getTickerSymbol(), toSell.getPortfolioId());
+        if (existing == null) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Cannot sell a stock not owned by this portfolio");
+            return result;
+        }
+
+        BigDecimal amountAfterSell = existing.getAmount().subtract(toSell.getAmount());
+        if (amountAfterSell.compareTo(new BigDecimal(0)) < 0) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Cannot sell more than this portfolio owns");
+        } else {
+            existing.setAmount(amountAfterSell);
+            if (amountAfterSell.compareTo(new BigDecimal(0)) == 0) {
+                boolean deleted = holdingRepository.deleteById(existing.getHoldingId());
+                if (!deleted) {
+                    result.addMessage(ResultStatus.INTERNAL_SERVER_ERROR, "Something get wrong selling all");
+                } else {
+                    result.setPayload(existing);
+                }
+            } else {
+                Holding holdingAfterSell = holdingRepository.editAmount(existing);
+                if (holdingAfterSell == null) {
+                    result.addMessage(ResultStatus.INTERNAL_SERVER_ERROR, "Something get wrong selling");
+                } else {
+                    result.setPayload(holdingAfterSell);
+                }
+            }
+        }
+
+
+        return result;
+    }
     
 
     private Result<Holding> validate(Holding toValidate) {
