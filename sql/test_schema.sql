@@ -76,10 +76,12 @@ begin
 
     insert into stock(ticker_symbol, company_name) values
         ("ST1", "Company 1"),
-        ("ST2", "Company 2");
+        ("ST2", "Company 2"),
+        ("ST3", "Company 3");
     insert into holding(portfolio_id, stock_id, amount) values
-        (1, 1, 1),
-        (2, 2, 1);
+        (1, 1, 1.00),
+        (2, 2, 1.00),
+        (2, 3, 1.00);
 
 
 end//
