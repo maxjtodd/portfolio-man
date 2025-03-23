@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,46 @@ public class HoldingServiceTest {
 
     @MockBean
     StockRepository stockRepository;
+
+    @Nested
+    class GetHoldings {
+
+        @Test
+        void shouldNotFindNonExistantPortfolio() {
+            when(portfolioRepository.getPortfolioById(1)).thenReturn(null);
+            Result<List<Holding>> expected = new Result<>(ResultStatus.NOT_FOUND, "Portfolio not found");
+
+            Result<List<Holding>> actual = service.getPortfoliosHoldings(1);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldFindNone() {
+            when(portfolioRepository.getPortfolioById(1)).thenReturn(TestHelper.generatePortfolio(1));
+            when(holdingRepository.getAllHoldingsInPortfolio(1)).thenReturn(List.of());
+            Result<List<Holding>> expected = new Result<>();
+            expected.setPayload(List.of());
+
+            Result<List<Holding>> actual = service.getPortfoliosHoldings(1);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        void shouldFindMultiple() {
+            when(portfolioRepository.getPortfolioById(1)).thenReturn(TestHelper.generatePortfolio(1));
+            List<Holding> expectedHoldings = List.of(TestHelper.generateHolding(1), TestHelper.generateHolding(2));
+            when(holdingRepository.getAllHoldingsInPortfolio(1)).thenReturn(expectedHoldings);
+            Result<List<Holding>> expected = new Result<>();
+            expected.setPayload(expectedHoldings);
+
+            Result<List<Holding>> actual = service.getPortfoliosHoldings(1);
+
+            assertEquals(expected, actual);
+        }
+
+    }
 
     @Nested
     class Buy {

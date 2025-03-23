@@ -1,6 +1,7 @@
 package learn.portfolio_man.domain;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -8,11 +9,14 @@ import learn.portfolio_man.data.HoldingRepository;
 import learn.portfolio_man.data.PortfolioRepository;
 import learn.portfolio_man.data.StockRepository;
 import learn.portfolio_man.models.Holding;
+import learn.portfolio_man.models.Portfolio;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.ResultStatus;
 
 @Service
 public class HoldingService {
+
+    // TODO: fractional buying and selling doesn't work
 
     private HoldingRepository holdingRepository;
     private PortfolioRepository portfolioRepository;
@@ -25,6 +29,19 @@ public class HoldingService {
         this.stockRepository = stockRepository;
     }
 
+    public Result<List<Holding>> getPortfoliosHoldings(int portfolioId) {
+        Result<List<Holding>> result = new Result<>();
+        Portfolio portfolio = portfolioRepository.getPortfolioById(portfolioId);
+
+        if (portfolio == null) {
+            result.addMessage(ResultStatus.NOT_FOUND, "Portfolio not found");
+            return result;
+        } 
+
+        List<Holding> holdings = holdingRepository.getAllHoldingsInPortfolio(portfolioId);
+        result.setPayload(holdings);
+        return result;
+    }
 
     public Result<Holding> buy(Holding toBuy) {
         Result<Holding> result = validate(toBuy);
@@ -84,7 +101,6 @@ public class HoldingService {
                 }
             }
         }
-
 
         return result;
     }
