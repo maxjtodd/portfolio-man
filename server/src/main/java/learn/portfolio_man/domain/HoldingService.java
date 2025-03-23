@@ -100,7 +100,6 @@ public class HoldingService {
             }
         }
 
-
         return result;
     }
     

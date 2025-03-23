@@ -64,5 +64,5 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 ##################################################
 
 # Get by id - happy path
-GET {{url}}/17 HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.XU-NB-Ls1m9EXQrwTo8_-z_1xiJwD8wsHLD4ye85Vpg
+GET {{url}}/3 HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.Ztt6reof-1Q-QbPGjzZ2GFbhHf8NqQOC-H5tuLh_CrY
