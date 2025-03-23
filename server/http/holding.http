@@ -7,7 +7,7 @@
 # Get holdings for portfolio - happy path
 GET {{url}}/3 HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.mhSK08Mini-bgzVegGAhmA_F1wdZQWDccauCbFnoIbE
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9._NHM5wkVdx2JIwmNi3xJo7BS46TAZjTsL42stkpg3O0
 
 ###
 
@@ -47,10 +47,10 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 # Get holdings for portfolio - happy path
 POST {{url}}/sell HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.mhSK08Mini-bgzVegGAhmA_F1wdZQWDccauCbFnoIbE
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9._NHM5wkVdx2JIwmNi3xJo7BS46TAZjTsL42stkpg3O0
 
 {
     "portfolioId": 3,
     "ticker": "GOOG",
-    "amount": 0.5
+    "amount": 1
 }

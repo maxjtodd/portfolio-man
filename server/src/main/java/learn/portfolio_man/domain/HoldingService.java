@@ -16,6 +16,8 @@ import learn.portfolio_man.models.ResultStatus;
 @Service
 public class HoldingService {
 
+    // TODO: fractional buying and selling doesn't work
+
     private HoldingRepository holdingRepository;
     private PortfolioRepository portfolioRepository;
     private StockRepository stockRepository;
