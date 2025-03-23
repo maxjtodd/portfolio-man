@@ -28,6 +28,25 @@ public class HoldingService {
 
     public Result<Holding> buy(Holding toBuy) {
         Result<Holding> result = validate(toBuy);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        Holding existing = holdingRepository.getByTicker(toBuy.getStock().getTickerSymbol(), toBuy.getPortfolioId());
+
+        Holding bought;
+        if (existing == null) {
+            bought = holdingRepository.add(toBuy);
+        } else {
+            existing.setAmount(existing.getAmount().add(toBuy.getAmount()));
+            bought = holdingRepository.editAmount(existing);
+        }
+
+        if (bought == null) {
+            result.addMessage(ResultStatus.INTERNAL_SERVER_ERROR, "Something went wrong buying");
+        } else {
+            result.setPayload(bought);
+        }
 
         return result;
     }

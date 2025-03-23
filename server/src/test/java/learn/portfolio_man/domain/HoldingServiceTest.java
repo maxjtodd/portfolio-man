@@ -107,10 +107,30 @@ public class HoldingServiceTest {
 
 
 
-        void shouldBuy() {
+        void shouldBuyWithAddToDb() {
             Holding toBuy = TestHelper.generateHolding(1);
             setGoodRepositoryStubs(toBuy);
+            when(holdingRepository.getByTicker(toBuy.getStock().getTickerSymbol(), toBuy.getPortfolioId()))
+                .thenReturn(null);
             Result<Holding> expected = new Result<>();
+            expected.setPayload(toBuy);
+
+            Result<Holding> actual = service.buy(toBuy); 
+
+            assertEquals(expected, actual);
+        }
+
+
+        void shouldBuyWithEditAmountToDb() {
+            Holding existing = TestHelper.generateHolding(1);
+            Holding expectedHolding = TestHelper.generateHolding(1);
+            expectedHolding.setAmount(new BigDecimal(2));
+            Holding toBuy = TestHelper.generateHolding(1);
+            setGoodRepositoryStubs(toBuy);
+            when(holdingRepository.getByTicker(toBuy.getStock().getTickerSymbol(), toBuy.getPortfolioId()))
+                .thenReturn(existing);
+            Result<Holding> expected = new Result<>();
+            expected.setPayload(expectedHolding);
 
             Result<Holding> actual = service.buy(toBuy); 
 
