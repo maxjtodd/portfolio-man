@@ -17,6 +17,7 @@ import learn.portfolio_man.domain.StockService;
 import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.PriceHistory;
 import learn.portfolio_man.models.YahooFinance.Search;
 import learn.portfolio_man.models.YahooFinance.SearchResult;
 
@@ -85,6 +86,23 @@ public class StockController {
         }
 
         SearchResult searchResult = yahooFinance.searchSpecificStock(ticker);
+        if (searchResult == null) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong searching");
+        }
+
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
+    }
+
+    @GetMapping("/priceHistory/{ticker}")
+    public ResponseEntity<Object> getPriceHistory(@PathVariable String ticker, @RequestHeader Map<String, String> headers) {
+        
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        PriceHistory searchResult = yahooFinance.getPriceHistory(ticker);
         if (searchResult == null) {
             return ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong searching");
         }
