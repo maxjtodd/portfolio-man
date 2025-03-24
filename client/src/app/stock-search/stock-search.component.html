@@ -22,7 +22,7 @@
         }
 
         @else {
-        <ul>
+        <ul class="list-group">
             <app-stock-search-suggestion 
                 *ngFor="let searchSuggestion of this.searchResults"
                 [stockSearchData]="searchSuggestion"

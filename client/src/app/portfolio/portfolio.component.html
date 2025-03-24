@@ -1,3 +1,5 @@
+@if(userId) {
+
 @if(!portfolio) {
 <div>
     <h1>Portfolio not found</h1>
@@ -8,9 +10,12 @@
     <div class="row">
         <div class="col-9">
 
-            <h1>{{portfolio!.name}}</h1>
+            <h1>{{portfolio!.name}} {{portfolio!.private ? "(private)" : ""}}</h1>
 
         </div>
+
+        @if (portfolio.userId === userId) {
+
         <div class="col-1">
             <a class="btn btn-success" routerLink="./buy">Buy</a>
         </div>
@@ -22,6 +27,9 @@
         <div class="col-1">
             <button class="btn btn-info">Settings</button>
         </div>
+
+        }
+
         
     </div>
 
@@ -37,6 +45,10 @@
 
             <h4>Holdings</h4>
 
+            <ul>
+                <li>Balance {{portfolio.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</li>
+            </ul>
+
         </div>
 
 
@@ -44,4 +56,6 @@
 
 
 </div>
+}
+
 }

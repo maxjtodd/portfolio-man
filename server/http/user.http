@@ -5,10 +5,10 @@ POST {{url}}/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "user1@test.com",
+    "email": "user2@test.com",
     "firstName": "test",
     "lastName": "testLast",
-    "password": "password1"
+    "password": "password2"
 }
 
 ###

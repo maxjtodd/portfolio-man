@@ -22,6 +22,7 @@ create table portfolio (
     portfolio_id int primary key auto_increment,
     user_id int,
     name varchar(100) not null,
+    balance decimal(12,2) not null,
     private boolean not null,
     foreign key (user_id) references user(user_id)
 );
@@ -66,13 +67,13 @@ begin
     insert into friend (low_user_id, high_user_id) values
         (1, 2);
 
-    insert into portfolio(user_id, name, private) values
-        (1, "Portfolio 1", true),
-        (2, "Portfolio 2", true),
-        (2, "Portfolio 3", false),
-        (3, "Portfolio 4", true),
-        (3, "Portfolio 5", false),
-        (3, "Portfolio 6", true);
+    insert into portfolio(user_id, name, balance, private) values
+        (1, "Portfolio 1", 10000.00, true),
+        (2, "Portfolio 2", 10000.00, true),
+        (2, "Portfolio 3", 10000.00, false),
+        (3, "Portfolio 4", 10000.00, true),
+        (3, "Portfolio 5", 10000.00, false),
+        (3, "Portfolio 6", 10000.00, true);
 
     insert into stock(ticker_symbol, company_name) values
         ("ST1", "Company 1"),

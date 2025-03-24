@@ -28,8 +28,9 @@ public class TestHelper {
     public static Portfolio generatePortfolio(int portfolioId) {
         int userId = getUserId(portfolioId);
         String name = String.format("Portfolio %d", portfolioId);
+        BigDecimal balance = new BigDecimal("10000.00");
         boolean isPrivate = portfolioId == 1 || portfolioId % 2 == 0;
-        return new Portfolio(portfolioId, userId, name, isPrivate);
+        return new Portfolio(portfolioId, userId, name, balance, isPrivate);
     }
 
     public static Stock generateStock(int stockId) {
