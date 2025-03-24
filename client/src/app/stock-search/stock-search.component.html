@@ -2,7 +2,9 @@
 <ul>
     <app-stock-search-suggestion 
         *ngFor="let searchSuggestion of this.searchResults"
-        [stockSearch]="searchSuggestion">
+        [stockSearchData]="searchSuggestion"
+        [portfolioToActUpon]="portfolioToActUpon"
+    >
     </app-stock-search-suggestion>
 
 </ul>

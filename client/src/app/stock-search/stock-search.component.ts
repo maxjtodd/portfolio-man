@@ -3,6 +3,7 @@ import { StockSearchSuggestionComponent } from '../stock-search-suggestion/stock
 import { StockService } from '../stock.service';
 import { StockSearch } from '../stock-search';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-stock-search',
@@ -13,10 +14,14 @@ import { CommonModule } from '@angular/common';
 export class StockSearchComponent {
 
     searchResults: StockSearch[] = [];
+    portfolioToActUpon = -1;
 
     constructor(
-        private stockService: StockService
-    ) { }
+        private stockService: StockService,
+        private route: ActivatedRoute
+    ) {
+        this.portfolioToActUpon = Number(this.route.snapshot.params["id"]);
+    }
 
     ngOnInit() {
         this.setSearchResults();

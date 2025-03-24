@@ -1,1 +1,3 @@
-<li>{{stockSearch.symbol}} - {{stockSearch.shortname}}</li>
+<li >
+    <a [routerLink]="['/stock', stockSearchData.symbol]" [state]="{stockSearchData: stockSearchData, portfolioToActUpon}">{{stockSearchData.symbol}} - {{stockSearchData.shortname}}</a>
+</li>
