@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Portfolio } from "../portfolio";
 import { PortfolioService } from "../portfolio.service";
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
     selector: "app-portfolio",
@@ -13,11 +14,13 @@ export class PortfolioComponent {
     portfolioId = 0;
     portfolio: Portfolio | null = null;
     loadingPortfolio = true;
+    userId: number | null = null;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private portfolioService: PortfolioService
+        private portfolioService: PortfolioService,
+        private authService: AuthenticationService
     ) {
         this.portfolioId = Number(this.route.snapshot.params["id"]);
         this.portfolio = this.router.getCurrentNavigation()?.extras
@@ -27,6 +30,7 @@ export class PortfolioComponent {
         } else {
             this.loadingPortfolio = false;
         }
+        this.userId = authService.getUserId();
     }
 
     async setPortfolio() {
