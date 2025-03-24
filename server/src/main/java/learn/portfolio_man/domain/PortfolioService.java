@@ -1,5 +1,6 @@
 package learn.portfolio_man.domain;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -82,6 +83,15 @@ public class PortfolioService {
         if (toValidate.getName() == null || toValidate.getName().isBlank()) {
             result.addMessage(ResultStatus.BAD_REQUEST, "Name is required");
         }
+
+        if (toValidate.getBalance() == null) {
+            toValidate.setBalance(new BigDecimal("10000.00"));
+        }
+
+        if (toValidate.getBalance().compareTo(new BigDecimal("10000.00")) != 0) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "10,000 is the starting balance for new portfolios");
+        }
+
 
         return result;
     }

@@ -3,6 +3,7 @@ package learn.portfolio_man.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Nested;
@@ -132,6 +133,22 @@ public class PortfolioServiceTest {
             toAdd2.setName("");
             when(userRepository.getUserById(toAdd1.getUserId())).thenReturn(TestHelper.generateUser(1));
             Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "Name is required");
+
+            Result<Portfolio> actual1 = service.add(toAdd1);
+            Result<Portfolio> actual2 = service.add(toAdd2);
+
+            assertEquals(expected, actual1);
+            assertEquals(expected, actual2);
+        }
+
+        @Test
+        void shouldNotAddNon10kBalance() {
+            Portfolio toAdd1 = TestHelper.generatePortfolio(1);
+            Portfolio toAdd2 = TestHelper.generatePortfolio(1);
+            toAdd1.setBalance(new BigDecimal("100.00"));
+            toAdd2.setBalance(new BigDecimal("1000000.00"));
+            when(userRepository.getUserById(toAdd1.getUserId())).thenReturn(TestHelper.generateUser(1));
+            Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "10,000 is the starting balance for new portfolios");
 
             Result<Portfolio> actual1 = service.add(toAdd1);
             Result<Portfolio> actual2 = service.add(toAdd2);
