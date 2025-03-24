@@ -18,6 +18,7 @@ import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
 import learn.portfolio_man.models.YahooFinance.Search;
+import learn.portfolio_man.models.YahooFinance.SearchResult;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -71,6 +72,24 @@ public class StockController {
         }
 
         return new ResponseEntity<>(searchResult.getBody(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/searchOne/{ticker}")
+    public ResponseEntity<Object> searchOne(@PathVariable String ticker, @RequestHeader Map<String, String> headers) {
+        
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        SearchResult searchResult = yahooFinance.searchSpecificStock(ticker);
+        if (searchResult == null) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong searching");
+        }
+
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     @PostMapping

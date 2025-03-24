@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { StockSearch } from '../stock-search';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HoldingRequest } from '../holding-request';
 import { StockService } from '../stock.service';
@@ -22,7 +22,10 @@ export class StockSearchSuggestionComponent {
         amount: new FormControl(0)
     });
 
-    constructor(private stockService: StockService) { }
+    constructor(
+        private stockService: StockService,
+        private router: Router
+    ) { }
 
     setShowForm(toSet: boolean) {
         this.showForm = toSet;
@@ -42,6 +45,9 @@ export class StockSearchSuggestionComponent {
         console.log('buying...')
         const res: Holding | null = await this.stockService.buy(holdingRequest);
         console.log('done')
+
+        this.router.navigate(["/portfolios", this.portfolioToActUpon])
+
         console.log(res);
     }
 }
