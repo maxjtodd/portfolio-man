@@ -1,7 +1,15 @@
 @if(stockSearchData) {
 
 <h1 class="text-center">{{stockSearchData.symbol}} - {{stockSearchData.longname}}</h1>
-<p>details...</p>
+
+@if(acting && portfolioToActUpon) {
+<div class="d-flex">
+    <div class="mx-auto">
+        <button class="btn btn-success">Buy</button>
+        <button class="btn btn-danger">Sell</button>
+    </div>
+</div>
+}
 
 <div class="container">
     <div class="row">
@@ -32,6 +40,8 @@
         </div>
 
     </div>
+
+
 </div>
 
 

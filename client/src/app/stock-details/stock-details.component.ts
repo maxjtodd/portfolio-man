@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StockSearch } from '../stock-search';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockDetailsData } from '../stock-details-data';
@@ -16,6 +16,8 @@ export class StockDetailsComponent {
     portfolioToActUpon: number | null = null;
     stockSearchData: StockSearch | null = null;
     loadingData = true;
+    acting = false;
+
 
     constructor(
         private route: ActivatedRoute,
@@ -30,6 +32,9 @@ export class StockDetailsComponent {
         } else {
             this.stockSearchData = recievedState.stockSearchData;
             this.portfolioToActUpon = recievedState.portfolioToActUpon;
+            if (recievedState.action) {
+                this.acting = true;
+            }
         }
     }
 

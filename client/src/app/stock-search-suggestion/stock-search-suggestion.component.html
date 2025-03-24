@@ -1,7 +1,8 @@
 <div class="list-group-item">
+    <!-- TODO: Add the action data -->
     <a
         [routerLink]="['/stock', stockSearchData.symbol]"
-        [state]="{stockSearchData: stockSearchData, portfolioToActUpon}"
+        [state]="{stockSearchData: stockSearchData, portfolioToActUpon, action: true}"
     >
         {{stockSearchData.symbol}} - {{stockSearchData.shortname}}
     </a>
