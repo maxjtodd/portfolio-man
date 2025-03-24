@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.HoldingService;
 import learn.portfolio_man.domain.StockService;
+import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.StockProfile;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -29,12 +31,14 @@ public class HoldingController {
     private HoldingService holdingService;
     private StockService stockService;
     private SecretSigningKey secretSigningKey;
+    private YahooFinance yahooFinance;
 
     public HoldingController(HoldingService holdingService, StockService stockService,
-            SecretSigningKey secretSigningKey) {
+            SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
         this.holdingService = holdingService;
         this.stockService = stockService;
         this.secretSigningKey = secretSigningKey;
+        this.yahooFinance = yahooFinance;
     }
 
     @GetMapping("/{portfolioId}")
@@ -100,6 +104,12 @@ public class HoldingController {
 
 
         return null;
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Object> test() {
+        StockProfile sp = yahooFinance.getStockProfile("AAAAALSKD");
+        return new ResponseEntity<>(sp, HttpStatus.OK);
     }
 
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {

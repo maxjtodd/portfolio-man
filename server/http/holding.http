@@ -54,3 +54,11 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
     "ticker": "GOOG",
     "amount": 1
 }
+
+
+
+
+##################################################
+###                    Test                    ###
+##################################################
+GET {{url}}/test HTTP/1.1
