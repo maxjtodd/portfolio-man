@@ -1,10 +1,30 @@
-<h3>Search</h3>
-<ul>
-    <app-stock-search-suggestion 
-        *ngFor="let searchSuggestion of this.searchResults"
-        [stockSearchData]="searchSuggestion"
-        [portfolioToActUpon]="portfolioToActUpon"
-    >
-    </app-stock-search-suggestion>
+<div class="d-flex">
 
-</ul>
+    <div class="mx-auto" style="margin-top: 1rem;" >
+
+        <form [formGroup]="searchForm" (submit)="search()" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="search-input" class="col-form-label">Search</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="search-input" class="form-control" formControlName="searchTerm">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+
+        <ul>
+            <app-stock-search-suggestion 
+                *ngFor="let searchSuggestion of this.searchResults"
+                [stockSearchData]="searchSuggestion"
+                [portfolioToActUpon]="portfolioToActUpon"
+            >
+            </app-stock-search-suggestion>
+
+        </ul>
+
+    </div>
+
+</div>
+

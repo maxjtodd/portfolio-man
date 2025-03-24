@@ -4,10 +4,11 @@ import { StockService } from '../stock.service';
 import { StockSearch } from '../stock-search';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-stock-search',
-  imports: [StockSearchSuggestionComponent, CommonModule],
+  imports: [StockSearchSuggestionComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './stock-search.component.html',
   styleUrl: './stock-search.component.css'
 })
@@ -15,6 +16,10 @@ export class StockSearchComponent {
 
     searchResults: StockSearch[] = [];
     portfolioToActUpon = -1;
+
+    searchForm = new FormGroup({
+        searchTerm: new FormControl("")
+    })
 
     constructor(
         private stockService: StockService,
@@ -36,5 +41,10 @@ export class StockSearchComponent {
             this.searchResults = fetchedSearchResults;
         }
         console.log('done');
+    }
+
+
+    search() {
+        console.log('search')
     }
 }
