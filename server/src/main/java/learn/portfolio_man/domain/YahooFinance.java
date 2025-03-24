@@ -6,6 +6,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import learn.portfolio_man.models.YahooFinance.PriceHistory;
 import learn.portfolio_man.models.YahooFinance.Search;
 import learn.portfolio_man.models.YahooFinance.SearchResult;
 import learn.portfolio_man.models.YahooFinance.StockProfile;
@@ -49,6 +50,12 @@ public class YahooFinance {
         System.out.println(fetchedProfile);
         return fetchedProfile != null ? fetchedProfile.getBody() : null;
     }
+
+    public PriceHistory getPriceHistory(String ticker) {
+        return this.restClient.get().uri("/v1/markets/stock/history?symbol={ticker}&interval=5m&diffandsplits=false", ticker)
+            .retrieve().body(PriceHistory.class);
+    }
+
 
     private String getApiKey() {
         return environment.getProperty("portfolio-man.apiKey");
