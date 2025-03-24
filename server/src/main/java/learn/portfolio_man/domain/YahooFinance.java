@@ -1,11 +1,13 @@
 package learn.portfolio_man.domain;
 
+import java.util.List;
+
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import learn.portfolio_man.models.Stock;
 import learn.portfolio_man.models.YahooFinance.Search;
+import learn.portfolio_man.models.YahooFinance.SearchResult;
 import learn.portfolio_man.models.YahooFinance.StockProfile;
 import learn.portfolio_man.models.YahooFinance.StockProfileResult;
 
@@ -27,6 +29,18 @@ public class YahooFinance {
     public Search search(String ticker) {
         return this.restClient.get().uri("/v1/markets/search?search={ticker}", ticker)
             .retrieve().body(Search.class);
+    }
+
+    public SearchResult searchSpecificStock(String ticker) {
+        List<SearchResult> search = search(ticker).getBody();
+
+        for (SearchResult searchResult : search) {
+            if (searchResult.getSymbol().equals(ticker)) {
+                return searchResult;
+            }
+        }
+
+        return null;
     }
 
     public StockProfile getStockProfile(String ticker) {

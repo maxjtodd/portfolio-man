@@ -21,6 +21,7 @@ import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.SearchResult;
 import learn.portfolio_man.models.YahooFinance.StockProfile;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -106,9 +107,9 @@ public class HoldingController {
         return null;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Object> test() {
-        StockProfile sp = yahooFinance.getStockProfile("AAAAALSKD");
+    @GetMapping("/test/{t}")
+    public ResponseEntity<Object> test(@PathVariable String t) {
+        StockProfile sp = yahooFinance.getStockProfile(t);
         return new ResponseEntity<>(sp, HttpStatus.OK);
     }
 
@@ -120,7 +121,20 @@ public class HoldingController {
         Result<Stock> result = stockService.getByTicker(toConvert.getTicker());
         Stock stock = null;
         if (!result.isSuccess()) {
-            // TODO: Add stock to DB through yahoo finance api call for searching
+            // Stock not found, look up stock and attempt to add. If not found, error, else set the proper fields.
+            SearchResult sr = yahooFinance.searchSpecificStock(toConvert.getTicker());
+            if (sr == null) {
+                return null;
+            }
+
+            Stock toAdd = new Stock(0, toConvert.getTicker(), sr.getLongname());
+            Result<Stock> addResult = stockService.add(toAdd);
+            if (addResult.isSuccess()) {
+                stock = addResult.getPayload();
+            } else {
+                return null;
+            }
+
         } else {
             stock = result.getPayload();
         }
