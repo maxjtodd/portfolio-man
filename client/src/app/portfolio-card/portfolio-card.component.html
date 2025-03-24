@@ -2,6 +2,6 @@
     <div class="card-body">
         <h4 class="card-title">{{portfolio.name}} {{portfolio.private ? "(private)" : "" }}</h4>
         <h5 class="card-subtitle">user {{portfolio.userId}}</h5>
-        <p class="card-text">todo: insert stock data...</p>
+        <p class="card-text">Balance: {{portfolio.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</p>
     </div>
 </div>

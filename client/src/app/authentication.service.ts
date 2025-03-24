@@ -66,7 +66,7 @@ export class AuthenticationService {
 
         this.handleResponse(res.status, content);
 
-        return res.status === 200;
+        return res.status === 201;
     }
 
     async login(email: string, password: string) {
@@ -90,7 +90,7 @@ export class AuthenticationService {
 
     private handleResponse(status: number, content: any) {
 
-        if (status === 200) {
+        if (status === 200 || status === 201) {
             this.setJwt(content.jwt);
             this.setErrors([]);
         } else {
