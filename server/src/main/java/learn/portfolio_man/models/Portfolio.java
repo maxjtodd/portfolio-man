@@ -1,19 +1,23 @@
 package learn.portfolio_man.models;
 
+import java.math.BigDecimal;
+
 public class Portfolio {
 
     private int portfolioId;
     private int userId;
     private String name;
+    private BigDecimal balance;
     private boolean isPrivate;
 
     public Portfolio() {
     }
 
-    public Portfolio(int portfolioId, int userId, String name, boolean isPrivate) {
+    public Portfolio(int portfolioId, int userId, String name, BigDecimal balance, boolean isPrivate) {
         this.portfolioId = portfolioId;
         this.userId = userId;
         this.name = name;
+        this.balance = balance;
         this.isPrivate = isPrivate;
     }
 
@@ -49,6 +53,14 @@ public class Portfolio {
         this.isPrivate = isPrivate;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -56,6 +68,7 @@ public class Portfolio {
         result = prime * result + portfolioId;
         result = prime * result + userId;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
         result = prime * result + (isPrivate ? 1231 : 1237);
         return result;
     }
@@ -85,10 +98,17 @@ public class Portfolio {
         } else if (!name.equals(other.name)) {
             return false;
         }
+        if (balance == null) {
+            if (other.balance != null) {
+                return false;
+            }
+        } else if (!balance.equals(other.balance)) {
+            return false;
+        }
         if (isPrivate != other.isPrivate) {
             return false;
         }
         return true;
     }
-    
+
 }

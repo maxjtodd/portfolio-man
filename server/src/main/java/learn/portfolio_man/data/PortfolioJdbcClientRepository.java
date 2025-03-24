@@ -12,7 +12,7 @@ import learn.portfolio_man.models.Portfolio;
 @Repository
 public class PortfolioJdbcClientRepository implements PortfolioRepository {
 
-    private final String SELECT = "SELECT portfolio_id, user_id, name, private FROM portfolio ";
+    private final String SELECT = "SELECT portfolio_id, user_id, name, balance, private FROM portfolio ";
 
     private JdbcClient jdbcClient;
 
@@ -53,8 +53,8 @@ public class PortfolioJdbcClientRepository implements PortfolioRepository {
     @Override
     public Portfolio add(Portfolio portfolio) {
         final String sql = """
-        INSERT INTO portfolio(user_id, name, private) VALUES
-            (:userId, :name, :private);
+        INSERT INTO portfolio(user_id, name, balance, private) VALUES
+            (:userId, :name, :balance, :private);
         """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -62,6 +62,7 @@ public class PortfolioJdbcClientRepository implements PortfolioRepository {
         int rowsEffected = jdbcClient.sql(sql)
             .param("userId", portfolio.getUserId())
             .param("name", portfolio.getName())
+            .param("balance", portfolio.getBalance())
             .param("private", portfolio.isPrivate())
             .update(keyHolder);
 

@@ -22,6 +22,7 @@ create table portfolio (
     portfolio_id int primary key auto_increment,
     user_id int,
     name varchar(100) not null,
+    balance decimal(12,2) not null,
     private boolean not null,
     foreign key (user_id) references user(user_id)
 );
