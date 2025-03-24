@@ -3,10 +3,13 @@ import { StockSearch } from '../stock-search';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockDetailsData } from '../stock-details-data';
 import { StockService } from '../stock.service';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { HoldingRequest } from '../holding-request';
+import { Holding } from '../holding';
 
 @Component({
   selector: 'app-stock-details',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './stock-details.component.html',
   styleUrl: './stock-details.component.css'
 })
@@ -17,7 +20,11 @@ export class StockDetailsComponent {
     stockSearchData: StockSearch | null = null;
     loadingData = true;
     acting = false;
+    buyingForm: boolean | null = null;
 
+    actionForm = new FormGroup({
+        amount: new FormControl(0)
+    });
 
     constructor(
         private route: ActivatedRoute,
@@ -40,6 +47,32 @@ export class StockDetailsComponent {
 
     async setStockSearchData() {
         this.stockSearchData = await this.stockService.getSpecificStock(this.ticker);
+    }
+
+
+    async submit() {
+        if (this.stockSearchData == null || this.portfolioToActUpon === null || !this.actionForm.value.amount) {
+            return;
+        }
+
+        const holdingRequest: HoldingRequest = {
+            portfolioId: this.portfolioToActUpon,
+            ticker: this.stockSearchData.symbol,
+            amount: this.actionForm.value.amount
+        }
+
+        if (this.buyingForm) {
+
+            console.log('buying...')
+            const res: Holding | null = await this.stockService.buy(holdingRequest);
+            console.log('done')
+            console.log(res);
+
+        }
+        // TODO: Sell
+
+        this.router.navigate(["/portfolios", this.portfolioToActUpon])
+
     }
 
 }

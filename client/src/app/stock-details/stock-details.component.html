@@ -5,10 +5,33 @@
 @if(acting && portfolioToActUpon) {
 <div class="d-flex">
     <div class="mx-auto">
-        <button class="btn btn-success">Buy</button>
-        <button class="btn btn-danger">Sell</button>
+        <button class="btn btn-success" (click)="buyingForm = true">Buy</button>
+        <button class="btn btn-danger" (click)="buyingForm = false">Sell</button>
     </div>
 </div>
+}
+
+@if (buyingForm === true || buyingForm === false) {
+
+<div class="d-flex">
+    <div class="mx-auto">
+
+    <form [formGroup]="actionForm" (submit)="submit()">
+        <div class="col-auto">
+            <label for="amount-input">How many shares to {{buyingForm ? "buy" : "sell"}}?</label>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="amount-input" class="form-control" formControlName="amount">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">Confirm</button>
+            <button class="btn btn-secondary" (click)="buyingForm = null">Cancel</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+
 }
 
 <div class="container">
