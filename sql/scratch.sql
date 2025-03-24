@@ -10,4 +10,4 @@ use portfolio;
 --     (3, 1, 1.00),
 --     (3, 2, 1.00);
 
-SELECT * FROM user;
+SELECT * FROM holding;
