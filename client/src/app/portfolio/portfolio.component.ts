@@ -30,7 +30,7 @@ export class PortfolioComponent {
         } else {
             this.loadingPortfolio = false;
         }
-        this.userId = authService.getUserId();
+        this.userId = this.authService.getUserId();
     }
 
     async setPortfolio() {
