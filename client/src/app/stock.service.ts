@@ -26,6 +26,7 @@ export class StockService {
         //     return null;
         // }
         //
+        // return content;
 
             const result1: StockSearch = {
                 "shortname": "Alcoa Corporation",

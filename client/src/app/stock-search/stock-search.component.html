@@ -14,6 +14,14 @@
             </div>
         </form>
 
+        @if (loadingSearchResults) {
+
+        <!-- <mat-spinner></mat-spinner> -->
+        <!-- TODO: Fix spinner -->
+        <h3>loading...</h3>
+        }
+
+        @else {
         <ul>
             <app-stock-search-suggestion 
                 *ngFor="let searchSuggestion of this.searchResults"
@@ -23,6 +31,8 @@
             </app-stock-search-suggestion>
 
         </ul>
+
+        }
 
     </div>
 

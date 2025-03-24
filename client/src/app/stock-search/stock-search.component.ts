@@ -5,10 +5,11 @@ import { StockSearch } from '../stock-search';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-stock-search',
-  imports: [StockSearchSuggestionComponent, CommonModule, ReactiveFormsModule],
+  imports: [StockSearchSuggestionComponent, CommonModule, ReactiveFormsModule, MatProgressSpinnerModule],
   templateUrl: './stock-search.component.html',
   styleUrl: './stock-search.component.css'
 })
@@ -16,6 +17,7 @@ export class StockSearchComponent {
 
     searchResults: StockSearch[] = [];
     portfolioToActUpon = -1;
+    loadingSearchResults = false;
 
     searchForm = new FormGroup({
         searchTerm: new FormControl("")
@@ -28,12 +30,15 @@ export class StockSearchComponent {
         this.portfolioToActUpon = Number(this.route.snapshot.params["id"]);
     }
 
-    ngOnInit() {
-        this.setSearchResults();
-    }
+    async setSearchResults(searchTerm: string) {
 
-    async setSearchResults() {
-        const fetchedSearchResults: StockSearch[] | null = await this.stockService.search('AA');
+        this.loadingSearchResults = true;
+        console.log(this.loadingSearchResults);
+
+        const fetchedSearchResults: StockSearch[] | null = await this.stockService.search(searchTerm);
+
+        this.loadingSearchResults = false;
+        console.log(this.loadingSearchResults);
 
         if (fetchedSearchResults === null) {
             console.log("No search results or error")
@@ -45,6 +50,6 @@ export class StockSearchComponent {
 
 
     search() {
-        console.log('search')
+        this.setSearchResults(this.searchForm.value.searchTerm ?? '');
     }
 }
