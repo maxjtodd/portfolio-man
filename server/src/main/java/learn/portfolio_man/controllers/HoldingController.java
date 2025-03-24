@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.HoldingService;
 import learn.portfolio_man.domain.StockService;
+import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.SearchResult;
+import learn.portfolio_man.models.YahooFinance.StockProfile;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -29,12 +32,14 @@ public class HoldingController {
     private HoldingService holdingService;
     private StockService stockService;
     private SecretSigningKey secretSigningKey;
+    private YahooFinance yahooFinance;
 
     public HoldingController(HoldingService holdingService, StockService stockService,
-            SecretSigningKey secretSigningKey) {
+            SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
         this.holdingService = holdingService;
         this.stockService = stockService;
         this.secretSigningKey = secretSigningKey;
+        this.yahooFinance = yahooFinance;
     }
 
     @GetMapping("/{portfolioId}")
@@ -102,6 +107,12 @@ public class HoldingController {
         return null;
     }
 
+    @GetMapping("/test/{t}")
+    public ResponseEntity<Object> test(@PathVariable String t) {
+        StockProfile sp = yahooFinance.getStockProfile(t);
+        return new ResponseEntity<>(sp, HttpStatus.OK);
+    }
+
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {
         Holding holding = new Holding();
         holding.setHoldingId(0);
@@ -110,7 +121,20 @@ public class HoldingController {
         Result<Stock> result = stockService.getByTicker(toConvert.getTicker());
         Stock stock = null;
         if (!result.isSuccess()) {
-            // TODO: Add stock to DB through yahoo finance api call for searching
+            // Stock not found, look up stock and attempt to add. If not found, error, else set the proper fields.
+            SearchResult sr = yahooFinance.searchSpecificStock(toConvert.getTicker());
+            if (sr == null) {
+                return null;
+            }
+
+            Stock toAdd = new Stock(0, toConvert.getTicker(), sr.getLongname());
+            Result<Stock> addResult = stockService.add(toAdd);
+            if (addResult.isSuccess()) {
+                stock = addResult.getPayload();
+            } else {
+                return null;
+            }
+
         } else {
             stock = result.getPayload();
         }

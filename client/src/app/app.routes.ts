@@ -43,10 +43,12 @@ export const routes: Routes = [
     {
         path: 'portfolios/:id/buy',
         component: StockSearchComponent,
+        data: {buy: true},
         title: 'Portfolio Details'
     },
     {
         path: 'portfolios/:id/sell',
+        data: {buy: false},
         component: StockSearchComponent,
         title: 'Portfolio Details'
     },

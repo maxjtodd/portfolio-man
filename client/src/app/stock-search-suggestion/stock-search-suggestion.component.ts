@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { StockSearch } from '../stock-search';
-import { RouterModule } from '@angular/router';
-import { StockDetailsData } from '../stock-details-data';
+import { RouterModule, Router } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { HoldingRequest } from '../holding-request';
+import { StockService } from '../stock.service';
+import { Holding } from '../holding';
 
 @Component({
   selector: 'app-stock-search-suggestion',
@@ -20,11 +22,32 @@ export class StockSearchSuggestionComponent {
         amount: new FormControl(0)
     });
 
+    constructor(
+        private stockService: StockService,
+        private router: Router
+    ) { }
+
     setShowForm(toSet: boolean) {
         this.showForm = toSet;
     }
 
-    submit() {
-        console.log("submit");
+    async submit() {
+        if (this.portfolioToActUpon === null || !this.amountForm.value.amount) {
+            return;
+        }
+
+        const holdingRequest: HoldingRequest = {
+            portfolioId: this.portfolioToActUpon,
+            ticker: this.stockSearchData.symbol,
+            amount: this.amountForm.value.amount
+        }
+
+        console.log('buying...')
+        const res: Holding | null = await this.stockService.buy(holdingRequest);
+        console.log('done')
+
+        this.router.navigate(["/portfolios", this.portfolioToActUpon])
+
+        console.log(res);
     }
 }
