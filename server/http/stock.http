@@ -61,3 +61,10 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 {
     "tickerSymbol": "GOOG"
 }
+
+
+
+###
+# Test yahoo finance
+GET {{url}}/search/AA
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9.OxYZVT2CVwhqYi0o5lWGVS0ZXD1ZnetY36hANlfOtQ4

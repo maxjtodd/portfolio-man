@@ -4,6 +4,8 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { PortfolioListComponent } from './portfolio-list/portfolio-list.component';
 import { PortfolioFormComponent } from './portfolio-form/portfolio-form.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { StockSearchComponent } from './stock-search/stock-search.component';
+import { StockDetailsComponent } from './stock-details/stock-details.component';
 
 export const routes: Routes = [
     {
@@ -37,5 +39,20 @@ export const routes: Routes = [
         path: 'portfolios/:id',
         component: PortfolioComponent,
         title: 'Portfolio Details'
-    }
+    },
+    {
+        path: 'portfolios/:id/buy',
+        component: StockSearchComponent,
+        title: 'Portfolio Details'
+    },
+    {
+        path: 'portfolios/:id/sell',
+        component: StockSearchComponent,
+        title: 'Portfolio Details'
+    },
+    {
+        path: 'stock/:ticker',
+        component: StockDetailsComponent,
+        title: 'Portfolio Details'
+    },
 ];
