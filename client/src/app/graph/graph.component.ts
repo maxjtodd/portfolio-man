@@ -23,7 +23,15 @@ export class GraphComponent {
 
     ngOnInit() {
         this.labels = Object.keys(this.toGraph[0].body);
-        this.data = this.labels.map((l) => this.toGraph[0].body[l].close);
+        // this.data = this.labels.map((l) => this.toGraph[0].body[l].close);
+        this.data = this.labels.map((l) => 0);
+        for (const ph of this.toGraph!) {
+            let i = 0;
+            for (const label of this.labels!) {
+                this.data[i] += ph.body[label].open;
+                i += 1;
+            }
+        }
 
         this.lineChartData = {
             datasets: [
