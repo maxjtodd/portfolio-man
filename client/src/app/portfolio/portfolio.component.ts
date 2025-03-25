@@ -6,6 +6,7 @@ import { AuthenticationService } from "../authentication.service";
 import { Holding } from "../holding";
 import { HoldingsTableRowComponent } from "../holdings-table-row/holdings-table-row.component";
 import { CommonModule } from "@angular/common";
+import { StockDetailsData } from "../stock-details-data";
 
 @Component({
     selector: "app-portfolio",
@@ -19,6 +20,7 @@ export class PortfolioComponent {
     loadingPortfolio = true;
     userId: number | null = null;
     holdings: Holding[] | null = null;
+    stockDetailsData?: StockDetailsData;
 
     constructor(
         private route: ActivatedRoute,
@@ -36,6 +38,10 @@ export class PortfolioComponent {
         }
         this.userId = this.authService.getUserId();
         this.setHoldings();
+        this.stockDetailsData = {
+            portfolioToActUpon: this.portfolioId,
+            action: true
+        }
     }
 
     async setPortfolio() {

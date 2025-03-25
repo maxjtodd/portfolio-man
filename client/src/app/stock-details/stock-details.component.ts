@@ -37,12 +37,16 @@ export class StockDetailsComponent {
         this.ticker = String(this.route.snapshot.params["ticker"]);
         const recievedState: StockDetailsData | null = this.router.getCurrentNavigation()?.extras
             .state as StockDetailsData | null;
-        if (!recievedState) {
+        console.log(recievedState);
+        if (recievedState?.stockSearchData === undefined) {
             this.setStockSearchData();
         } else {
             this.stockSearchData = recievedState.stockSearchData;
-            this.portfolioToActUpon = recievedState.portfolioToActUpon;
-            if (recievedState.action) {
+        }
+        if (recievedState) {
+            this.portfolioToActUpon = recievedState!.portfolioToActUpon;
+
+            if (recievedState!.action) {
                 this.acting = true;
             }
         }

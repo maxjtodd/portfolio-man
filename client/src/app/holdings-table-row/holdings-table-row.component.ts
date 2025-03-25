@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Holding } from '../holding';
 import { RouterModule } from '@angular/router';
+import { StockDetailsData } from "../stock-details-data";
 
 @Component({
   selector: 'app-holdings-table-row',
@@ -10,4 +11,5 @@ import { RouterModule } from '@angular/router';
 })
 export class HoldingsTableRowComponent {
     @Input() holding!: Holding;
+    @Input() stockDetailsData!: StockDetailsData;
 }
