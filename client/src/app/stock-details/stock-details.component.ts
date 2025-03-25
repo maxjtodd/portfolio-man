@@ -7,10 +7,11 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HoldingRequest } from '../holding-request';
 import { Holding } from '../holding';
 import { PriceHistory } from '../price-history';
+import { GraphComponent } from '../graph/graph.component';
 
 @Component({
   selector: 'app-stock-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, GraphComponent],
   templateUrl: './stock-details.component.html',
   styleUrl: './stock-details.component.css'
 })
