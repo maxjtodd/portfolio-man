@@ -31,12 +31,12 @@ Authorization: JDFKLA:FAS
 # Get holdings for portfolio - happy path
 POST {{url}}/buy HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.2Jika-j7ccW56yluq_SXAy8_jwzSxSlaSsPv5izDpBw
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.9pAEmIe9bab3pyyiocQLrfLQbGZTtrfFIsJuAvsCbBU
 
 {
     "portfolioId": 1,
     "ticker": "AAPL",
-    "amount": 5
+    "amount": 5000
 }
 
 

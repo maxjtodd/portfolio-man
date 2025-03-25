@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.HoldingService;
+import learn.portfolio_man.domain.PortfolioService;
 import learn.portfolio_man.domain.StockService;
 import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
+import learn.portfolio_man.models.Portfolio;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
 import learn.portfolio_man.models.YahooFinance.CurrentPrice;
@@ -33,13 +35,15 @@ import learn.portfolio_man.models.YahooFinance.StockProfile;
 public class HoldingController {
 
     private HoldingService holdingService;
+    private PortfolioService portfolioService;
     private StockService stockService;
     private SecretSigningKey secretSigningKey;
     private YahooFinance yahooFinance;
 
-    public HoldingController(HoldingService holdingService, StockService stockService,
-            SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
+    public HoldingController(HoldingService holdingService, PortfolioService portfolioService,
+            StockService stockService, SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
         this.holdingService = holdingService;
+        this.portfolioService = portfolioService;
         this.stockService = stockService;
         this.secretSigningKey = secretSigningKey;
         this.yahooFinance = yahooFinance;
@@ -70,12 +74,23 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        System.out.println("Past auth");
+
         // TODO: make sure enough portfolio balance
+        Result<Portfolio> portfolioResult = portfolioService.getPortfolioById(holdingRequest.getPortfolioId());
+        if (!portfolioResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.NOT_FOUND, "Portfolio not found");
+        }
+        BigDecimal currentBalance = portfolioResult.getPayload().getBalance();
+
+        System.out.println("Past get current balance");
 
         BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
 
+        System.out.println("Past get current price");
+
         Holding toBuy = holdingRequestToHolding(holdingRequest);
-        Result<Holding> boughtResult = holdingService.buy(toBuy, currentPrice);
+        Result<Holding> boughtResult = holdingService.buy(toBuy, currentPrice, currentBalance);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
