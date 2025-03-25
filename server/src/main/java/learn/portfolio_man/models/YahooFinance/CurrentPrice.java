@@ -1,5 +1,8 @@
 package learn.portfolio_man.models.YahooFinance;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,6 +22,21 @@ public class CurrentPrice {
         this.primaryData = primaryData;
         this.marketStatus = marketStatus;
         this.keyStats = keyStats;
+    }
+
+    public BigDecimal getCurrentPrice() {
+        String stringPrice = this.primaryData.getLastSalePrice();
+        StringBuilder numericBuilder = new StringBuilder();
+        for (int i = 0; i < stringPrice.length(); i++) {
+            char c = stringPrice.charAt(i);
+            if (Character.isDigit(c) || c == '.') {
+                numericBuilder.append(c);
+            }
+        }
+        BigDecimal price = new BigDecimal(numericBuilder.toString());
+        price = price.setScale(2, RoundingMode.HALF_UP);
+
+        return price;
     }
 
     @Override

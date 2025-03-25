@@ -1,5 +1,6 @@
 package learn.portfolio_man.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -70,8 +71,11 @@ public class HoldingController {
         }
 
         // TODO: make sure enough portfolio balance
+
+        BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
+
         Holding toBuy = holdingRequestToHolding(holdingRequest);
-        Result<Holding> boughtResult = holdingService.buy(toBuy);
+        Result<Holding> boughtResult = holdingService.buy(toBuy, currentPrice);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
@@ -88,8 +92,11 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        // TODO: make sure add to portfolio balance
+        BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
+
         Holding toSell = holdingRequestToHolding(holdingRequest);
-        Result<Holding> boughtResult = holdingService.sell(toSell);
+        Result<Holding> boughtResult = holdingService.sell(toSell, currentPrice);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);

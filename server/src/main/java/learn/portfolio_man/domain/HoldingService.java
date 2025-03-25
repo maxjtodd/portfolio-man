@@ -43,11 +43,13 @@ public class HoldingService {
         return result;
     }
 
-    public Result<Holding> buy(Holding toBuy) {
+    public Result<Holding> buy(Holding toBuy, BigDecimal amountPerShare) {
         Result<Holding> result = validate(toBuy);
         if (!result.isSuccess()) {
             return result;
         }
+
+        // BigDecimal total = amountPerShare.multiply(toBuy.getAmount());
 
         Holding existing = holdingRepository.getByTicker(toBuy.getStock().getTickerSymbol(), toBuy.getPortfolioId());
 
@@ -68,7 +70,7 @@ public class HoldingService {
         return result;
     }
 
-    public Result<Holding> sell(Holding toSell) {
+    public Result<Holding> sell(Holding toSell, BigDecimal amountPerShare) {
         Result<Holding> result = validate(toSell);
         if (!result.isSuccess()) {
             return result;
