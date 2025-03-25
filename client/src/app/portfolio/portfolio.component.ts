@@ -79,6 +79,7 @@ export class PortfolioComponent {
             }
             this.priceHistories.push(ph);
         }
+        console.log(this.priceHistories);
         this.loadingGraph = false;
     }
 
