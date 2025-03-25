@@ -6,6 +6,7 @@ import { StockService } from '../stock.service';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HoldingRequest } from '../holding-request';
 import { Holding } from '../holding';
+import { PriceHistory } from '../price-history';
 
 @Component({
   selector: 'app-stock-details',
@@ -21,6 +22,7 @@ export class StockDetailsComponent {
     loadingData = true;
     acting = false;
     buyingForm: boolean | null = null;
+    priceHistory: PriceHistory | null = null;
 
     actionForm = new FormGroup({
         amount: new FormControl(0)
@@ -43,10 +45,16 @@ export class StockDetailsComponent {
                 this.acting = true;
             }
         }
+        this.setPriceHistory();
     }
 
     async setStockSearchData() {
         this.stockSearchData = await this.stockService.getSpecificStock(this.ticker);
+    }
+
+    async setPriceHistory() {
+        this.priceHistory = await this.stockService.priceHistory(this.ticker);
+        console.log(this.priceHistory);
     }
 
 
