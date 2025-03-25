@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "./authentication.service";
 import { Portfolio } from "./portfolio";
+import { Holding } from "./holding";
 
 @Injectable({
     providedIn: "root",
@@ -95,4 +96,24 @@ export class PortfolioService {
         }
 
     }
+
+
+    async getHoldings(portfolioId: number): Promise<Holding[] | null> {
+        const res = await fetch(`http://localhost:8080/api/holding/${portfolioId}`, {
+            method: "GET",
+            headers: {
+                Authorization: this.authService.getJwt(),
+            },
+        });
+
+        const content = await res.json();
+
+        if (res.status >= 400) {
+            return null;
+        }
+
+        return content;
+    }
+
+
 }

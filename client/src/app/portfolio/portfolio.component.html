@@ -39,6 +39,11 @@
         <div class="col-8">
 
             <h4>Performance</h4>
+            @if (loadingGraph) {
+                <h4>Loading...</h4>
+            } @else {
+                <app-graph [toGraph]="priceHistories" name="MyGraph"></app-graph>
+            }
 
         </div>
 
@@ -46,9 +51,16 @@
 
             <h4>Holdings</h4>
 
-            <ul>
-                <li></li>
-            </ul>
+            <table class="table table-bordered">
+                <tbody>
+                    <app-holdings-table-row
+                        *ngFor="let holding of this.holdings"
+                        [holding]="holding"
+                        [stockDetailsData]="stockDetailsData!"
+                    >
+                    </app-holdings-table-row>
+                </tbody>
+            </table>
 
         </div>
 

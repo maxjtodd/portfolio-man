@@ -22,8 +22,35 @@ export class GraphComponent {
     @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
     ngOnInit() {
-        this.labels = Object.keys(this.toGraph[0].body);
-        this.data = this.labels.map((l) => this.toGraph[0].body[l].close);
+
+        let lowestItemIndex = 0;
+        let lowestNumItems = Object.keys(this.toGraph[0].body).length;
+        let i = 0;
+        for (; i < this.toGraph.length; i++) {
+            const numItems = Object.keys(this.toGraph[i].body).length;
+            if (numItems < lowestNumItems) {
+                lowestItemIndex = i;
+                lowestNumItems = numItems;
+            }
+        }
+
+        console.log(`Lowest: ${lowestNumItems}`)
+
+        this.labels = Object.keys(this.toGraph[lowestItemIndex].body);
+        this.data = this.labels.map((l) => 0);
+
+        for (const ph of this.toGraph!) {
+            console.log(Object.keys(ph.body).length)
+            let i = 0;
+            for (const label of this.labels!) {
+                // if (!ph.body[label].open) {
+                //     console.log("NOT FOUND!!!!")
+                // }
+                this.data[i] += ph.body[label].open;
+                i += 1;
+            }
+            i = 0;
+        }
 
         this.lineChartData = {
             datasets: [

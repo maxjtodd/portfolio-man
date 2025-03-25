@@ -179,21 +179,22 @@ export class StockService {
 
     // get price history
     async priceHistory(ticker: string) {
-        // const res = await fetch(`http://localhost:8080/api/stock/priceHistory/${ticker}`, {
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: this.authService.getJwt(),
-        //     },
-        // });
-        //
-        // const content = await res.json();
-        // console.log(content);
-        //
-        // if (res.status >= 400) {
-        //     return null;
-        // }
-        //
-        // return content;
+    //     const res = await fetch(`http://localhost:8080/api/stock/priceHistory/${ticker}`, {
+    //         method: "GET",
+    //         headers: {
+    //             Authorization: this.authService.getJwt(),
+    //         },
+    //     });
+    //
+    //     const content = await res.json();
+    //     console.log(content);
+    //
+    //     if (res.status >= 400) {
+    //         return null;
+    //     }
+    //
+    //     return content;
+    // }
         return {
     "body": {
         "1740501900": {
