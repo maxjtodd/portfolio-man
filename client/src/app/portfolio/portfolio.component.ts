@@ -3,10 +3,13 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Portfolio } from "../portfolio";
 import { PortfolioService } from "../portfolio.service";
 import { AuthenticationService } from "../authentication.service";
+import { Holding } from "../holding";
+import { HoldingsTableRowComponent } from "../holdings-table-row/holdings-table-row.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-portfolio",
-    imports: [RouterModule],
+    imports: [RouterModule, HoldingsTableRowComponent, CommonModule],
     templateUrl: "./portfolio.component.html",
     styleUrl: "./portfolio.component.css",
 })
@@ -15,6 +18,7 @@ export class PortfolioComponent {
     portfolio: Portfolio | null = null;
     loadingPortfolio = true;
     userId: number | null = null;
+    holdings: Holding[] | null = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -31,6 +35,7 @@ export class PortfolioComponent {
             this.loadingPortfolio = false;
         }
         this.userId = this.authService.getUserId();
+        this.setHoldings();
     }
 
     async setPortfolio() {
@@ -39,5 +44,9 @@ export class PortfolioComponent {
             this.portfolio = fetchedPortfolio;
         }
         this.loadingPortfolio = false;
+    }
+
+    async setHoldings() {
+        this.holdings = await this.portfolioService.getHoldings(this.portfolioId);
     }
 }

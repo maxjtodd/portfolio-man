@@ -1,0 +1,8 @@
+<div>
+    <tr>
+        <td>
+            <a [routerLink]="['/stock', holding.stock.tickerSymbol]">{{holding.stock.tickerSymbol}}</a>
+        </td>
+        <td>{{holding.amount}} share{{holding.amount > 1 ? "s" : ""}}</td>
+    </tr>
+</div>
