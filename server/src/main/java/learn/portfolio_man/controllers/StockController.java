@@ -110,6 +110,23 @@ public class StockController {
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
+    @GetMapping("/currentPrice/{ticker}")
+    public ResponseEntity<Object> getCurrentPrice(@PathVariable String ticker, @RequestHeader Map<String, String> headers) {
+        
+        Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        PriceHistory searchResult = yahooFinance.getPriceHistory(ticker);
+        if (searchResult == null) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong searching");
+        }
+
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Object> createStock(@RequestBody Stock toAdd, @RequestHeader Map<String, String> headers) {
         Integer userId = secretSigningKey.getUserIdFromAuthHeaders(headers);

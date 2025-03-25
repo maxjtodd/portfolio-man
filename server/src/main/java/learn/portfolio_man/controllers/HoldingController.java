@@ -21,6 +21,7 @@ import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.CurrentPrice;
 import learn.portfolio_man.models.YahooFinance.PriceHistory;
 import learn.portfolio_man.models.YahooFinance.SearchResult;
 import learn.portfolio_man.models.YahooFinance.StockProfile;
@@ -110,8 +111,8 @@ public class HoldingController {
 
     @GetMapping("/test/{t}")
     public ResponseEntity<Object> test(@PathVariable String t) {
-        PriceHistory sp = yahooFinance.getPriceHistory(t);
-        return new ResponseEntity<>(sp, HttpStatus.OK);
+        CurrentPrice cp = yahooFinance.getCurrentPrice(t);
+        return new ResponseEntity<>(cp, HttpStatus.OK);
     }
 
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {
