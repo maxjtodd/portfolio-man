@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { PortfolioService } from "../portfolio.service";
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Portfolio } from "../portfolio";
 import { PortfolioCardComponent } from "../portfolio-card/portfolio-card.component";
 import { CommonModule } from "@angular/common";
@@ -14,18 +14,29 @@ import { CommonModule } from "@angular/common";
 export class PortfolioListComponent {
 
     portfolios: Portfolio[] = [];
+    myPortfolios: boolean = false;
 
     constructor(
         private portfolioService: PortfolioService,
         private router: Router,
-    ) { }
+        private route: ActivatedRoute
+    ) {
+        this.myPortfolios = this.route.snapshot.data['myPortfolios'];
+    }
 
     ngOnInit() {
         this.getPortfolios();
     }
 
     async getPortfolios() {
-        const fetchedPortfolios: Portfolio[] | null = await this.portfolioService.myPortfolios();
+        let fetchedPortfolios: Portfolio[] | null = null;;
+
+        if (this.myPortfolios) {
+            fetchedPortfolios = await this.portfolioService.myPortfolios();
+        } else {
+
+        }
+
         if (fetchedPortfolios === null) {
             console.log("No portfolios or error");
         } else {

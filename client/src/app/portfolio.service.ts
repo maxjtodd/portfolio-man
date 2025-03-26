@@ -44,6 +44,10 @@ export class PortfolioService {
 
     }
 
+    async getPublicPortfolios(): Promise<Portfolio[] | null> {
+        return null;
+    }
+
     async myPortfolios(): Promise<Portfolio[] | null> {
 
         if (!this.authService.isLoggedIn()) {
