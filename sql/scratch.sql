@@ -10,5 +10,9 @@ use portfolio;
 --     (3, 1, 1.00),
 --     (3, 2, 1.00);
 
+SELECT * FROM portfolio;
+SELECT * FROM holding WHERE portfolio_id = 2;
 SELECT * FROM stock;
-SELECT * FROM holding;
+-- SELECT * FROM holding;
+-- |            2 |       1 | adfsafdsa   |  8879.05 |       0 |
+

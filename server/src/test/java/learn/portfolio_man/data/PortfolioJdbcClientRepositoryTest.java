@@ -3,6 +3,7 @@ package learn.portfolio_man.data;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -90,6 +91,16 @@ public class PortfolioJdbcClientRepositoryTest {
         expected.setPortfolioId(TestHelper.NEXT_PORTFOLIO_ID);
 
         Portfolio actual = repository.add(toAdd);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldEdit() {
+        Portfolio expected = TestHelper.generatePortfolio(1);
+        expected.setBalance(new BigDecimal("100.00"));
+
+        Portfolio actual = repository.edit(expected);
 
         assertEquals(expected, actual);
     }

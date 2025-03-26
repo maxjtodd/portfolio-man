@@ -3,6 +3,7 @@ import { AuthenticationService } from './authentication.service';
 import { StockSearch } from './stock-search';
 import { HoldingRequest } from './holding-request';
 import { Holding } from './holding';
+import { PortfolioService } from './portfolio.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,8 @@ import { Holding } from './holding';
 export class StockService {
 
     constructor(
-        private authService: AuthenticationService
+        private authService: AuthenticationService,
+        private portfolioService: PortfolioService
     ) { }
 
     async search(searchTerm: string): Promise<StockSearch[] | null> {
@@ -172,6 +174,8 @@ export class StockService {
         if (res.status >= 400) {
             return null;
         }
+
+        this.portfolioService.setReload(true);
 
         return content;
     }

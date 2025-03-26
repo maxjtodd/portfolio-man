@@ -31,11 +31,11 @@ Authorization: JDFKLA:FAS
 # Get holdings for portfolio - happy path
 POST {{url}}/buy HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.N48_erk_35lMI_h3CFdAJQvZBJJ0HlNmk4DpJSKi8m4
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.n10NAWeA_nQBKmUbCGcbmwMp2Fv2dqPtWo_B5KLseGo
 
 {
-    "portfolioId": 1,
-    "ticker": "AA",
+    "portfolioId": 2,
+    "ticker": "AAPL",
     "amount": 5
 }
 
@@ -47,11 +47,11 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 # Get holdings for portfolio - happy path
 POST {{url}}/sell HTTP/1.1
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJ0ZXN0IiwibGFzdE5hbWUiOiJ0ZXN0TGFzdCJ9._NHM5wkVdx2JIwmNi3xJo7BS46TAZjTsL42stkpg3O0
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.AlB4lVgPTRcLHjP0CRno9FqJQY0LnjqZvBNBOD7WvI8
 
 {
-    "portfolioId": 3,
-    "ticker": "GOOG",
+    "portfolioId": 2,
+    "ticker": "AAPL",
     "amount": 1
 }
 

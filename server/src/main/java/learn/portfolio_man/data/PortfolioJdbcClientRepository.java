@@ -76,7 +76,22 @@ public class PortfolioJdbcClientRepository implements PortfolioRepository {
 
     @Override
     public Portfolio edit(Portfolio portfolio) {
-        throw new UnsupportedOperationException("Unimplemented method 'edit'");
+        final String sql = """
+        UPDATE portfolio SET 
+            name = :name,
+            balance = :balance,
+            private = :private
+        WHERE portfolio_id = :id;
+        """;
+
+        boolean edited = jdbcClient.sql(sql)
+            .param("name", portfolio.getName())
+            .param("balance", portfolio.getBalance())
+            .param("private", portfolio.isPrivate())
+            .param("id", portfolio.getPortfolioId())
+            .update() > 0;
+
+        return edited ? portfolio : null;
     }
 
     @Override

@@ -111,4 +111,12 @@ public class Portfolio {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Portfolio{portfolioId=" + portfolioId + ", userId=" + userId + ", name=" + name + ", balance=" + balance
+                + ", isPrivate=" + isPrivate + "}";
+    }
+
+
+
 }

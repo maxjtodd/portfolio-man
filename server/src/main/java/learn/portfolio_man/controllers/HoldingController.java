@@ -1,5 +1,7 @@
 package learn.portfolio_man.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import learn.portfolio_man.domain.HoldingService;
+import learn.portfolio_man.domain.PortfolioService;
 import learn.portfolio_man.domain.StockService;
 import learn.portfolio_man.domain.YahooFinance;
 import learn.portfolio_man.models.Holding;
 import learn.portfolio_man.models.HoldingRequest;
+import learn.portfolio_man.models.Portfolio;
 import learn.portfolio_man.models.Result;
 import learn.portfolio_man.models.Stock;
+import learn.portfolio_man.models.YahooFinance.CurrentPrice;
 import learn.portfolio_man.models.YahooFinance.PriceHistory;
 import learn.portfolio_man.models.YahooFinance.SearchResult;
 import learn.portfolio_man.models.YahooFinance.StockProfile;
@@ -31,13 +36,15 @@ import learn.portfolio_man.models.YahooFinance.StockProfile;
 public class HoldingController {
 
     private HoldingService holdingService;
+    private PortfolioService portfolioService;
     private StockService stockService;
     private SecretSigningKey secretSigningKey;
     private YahooFinance yahooFinance;
 
-    public HoldingController(HoldingService holdingService, StockService stockService,
-            SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
+    public HoldingController(HoldingService holdingService, PortfolioService portfolioService,
+            StockService stockService, SecretSigningKey secretSigningKey, YahooFinance yahooFinance) {
         this.holdingService = holdingService;
+        this.portfolioService = portfolioService;
         this.stockService = stockService;
         this.secretSigningKey = secretSigningKey;
         this.yahooFinance = yahooFinance;
@@ -68,12 +75,29 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        // TODO: make sure enough portfolio balance
+        Result<Portfolio> portfolioResult = portfolioService.getPortfolioById(holdingRequest.getPortfolioId());
+        if (!portfolioResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.NOT_FOUND, "Portfolio not found");
+        }
+        BigDecimal currentBalance = portfolioResult.getPayload().getBalance();
+
+        BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
+
         Holding toBuy = holdingRequestToHolding(holdingRequest);
-        Result<Holding> boughtResult = holdingService.buy(toBuy);
+        Result<Holding> boughtResult = holdingService.buy(toBuy, currentPrice, currentBalance);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
+        }
+
+        BigDecimal balanceAfterBuy = currentBalance.subtract(currentPrice.multiply(holdingRequest.getAmount())).setScale(2, RoundingMode.HALF_UP);
+
+        Portfolio newPortfolio = portfolioResult.getPayload();
+        newPortfolio.setBalance(balanceAfterBuy);
+
+        Result<Portfolio> editBalanceResult = portfolioService.edit(newPortfolio);
+        if (!editBalanceResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Balance not updated");
         }
 
         return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
@@ -87,11 +111,30 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        Result<Portfolio> portfolioResult = portfolioService.getPortfolioById(holdingRequest.getPortfolioId());
+        if (!portfolioResult.isSuccess()) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.NOT_FOUND, "Portfolio not found");
+        }
+
+        BigDecimal currentBalance = portfolioResult.getPayload().getBalance();
+        BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
+
+
         Holding toSell = holdingRequestToHolding(holdingRequest);
         Result<Holding> boughtResult = holdingService.sell(toSell);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
+        }
+
+        BigDecimal balanceAfterSell = currentBalance.add(holdingRequest.getAmount().multiply(currentPrice)).setScale(2, RoundingMode.HALF_UP);
+
+        Portfolio newPortfolio = portfolioResult.getPayload();
+        newPortfolio.setBalance(balanceAfterSell);
+
+        Result<Portfolio> editBalanceResult = portfolioService.edit(newPortfolio);
+        if (!editBalanceResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Balance not updated");
         }
 
         return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
@@ -110,8 +153,8 @@ public class HoldingController {
 
     @GetMapping("/test/{t}")
     public ResponseEntity<Object> test(@PathVariable String t) {
-        PriceHistory sp = yahooFinance.getPriceHistory(t);
-        return new ResponseEntity<>(sp, HttpStatus.OK);
+        CurrentPrice cp = yahooFinance.getCurrentPrice(t);
+        return new ResponseEntity<>(cp, HttpStatus.OK);
     }
 
     private Holding holdingRequestToHolding(HoldingRequest toConvert) {

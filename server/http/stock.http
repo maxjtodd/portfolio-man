@@ -73,4 +73,9 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5j
 ###
 # Get price history
 GET {{url}}/priceHistory/AAPL
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.hqQPQCuvHBTUKPYEonr5lQYxMOVBNsI2zskY6Nxh7zw
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.-aabqqvUKcXESH6GjfqnFrDgVSKahvGagAztaUI38VA
+
+###
+# Get current price
+GET {{url}}/currentPrice/AAPL
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoidXNlcjFAdGVzdC5jb20iLCJmaXJzdE5hbWUiOiJhIiwibGFzdE5hbWUiOiJhIn0.-aabqqvUKcXESH6GjfqnFrDgVSKahvGagAztaUI38VA

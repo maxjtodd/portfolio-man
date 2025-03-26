@@ -10,6 +10,15 @@ import { Holding } from "./holding";
 export class PortfolioService {
 
     private errors: string[] = [];
+    private reload: boolean = false;
+
+    public getReload():boolean {
+        return this.reload;
+    }
+
+    public setReload(a: boolean) {
+        this.reload = a;
+    }
 
     constructor(
         private authService: AuthenticationService,

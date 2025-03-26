@@ -3,6 +3,7 @@ package learn.portfolio_man.domain;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import learn.portfolio_man.data.HoldingRepository;
@@ -43,8 +44,14 @@ public class HoldingService {
         return result;
     }
 
-    public Result<Holding> buy(Holding toBuy) {
+    public Result<Holding> buy(Holding toBuy, BigDecimal amountPerShare, BigDecimal currentBalance) {
         Result<Holding> result = validate(toBuy);
+
+        BigDecimal total = amountPerShare.multiply(toBuy.getAmount());
+        if (total.compareTo(currentBalance) > 0) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "Not enough balance to buy");
+        }
+
         if (!result.isSuccess()) {
             return result;
         }
@@ -69,6 +76,7 @@ public class HoldingService {
     }
 
     public Result<Holding> sell(Holding toSell) {
+
         Result<Holding> result = validate(toSell);
         if (!result.isSuccess()) {
             return result;
