@@ -47,6 +47,13 @@ export class PortfolioComponent {
         }
     }
 
+    isMyPortfolio(): boolean {
+        if (this.userId == null || this.portfolio == null) {
+            return false;
+        }
+        return this.userId === this.portfolio.userId;
+    }
+
     async setPortfolio() {
         const fetchedPortfolio = await this.portfolioService.getPortfolioById(this.portfolioId);
         if (fetchedPortfolio) {
