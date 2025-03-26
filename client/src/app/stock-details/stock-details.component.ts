@@ -74,15 +74,12 @@ export class StockDetailsComponent {
             amount: this.actionForm.value.amount
         }
 
-        if (this.buyingForm) {
-
-            console.log('buying...')
-            const res: Holding | null = await this.stockService.buy(holdingRequest);
-            console.log('done')
-            console.log(res);
-
+        let res: Holding | null = null;
+        if (this.buyingForm === true) {
+            res = await this.stockService.buy(holdingRequest);
+        } else if (this.buyingForm === false) {
+            res = await this.stockService.sell(holdingRequest);
         }
-        // TODO: Sell
 
         this.router.navigate(["/portfolios", this.portfolioToActUpon])
 

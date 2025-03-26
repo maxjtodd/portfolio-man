@@ -1,9 +1,9 @@
 <div class="list-group-item">
     <a
-        [routerLink]="['/stock', stockSearchData.symbol]"
-        [state]="{stockSearchData: stockSearchData, portfolioToActUpon, action: true}"
+        [routerLink]="['/stock', stockSearchData!.symbol]"
+        [state]="buying ? {stockSearchData: stockSearchData, portfolioToActUpon, action: true} : {stockSearchData: undefined, portfolioToActUpon, action: true}"
     >
-        {{stockSearchData.symbol}} - {{stockSearchData.shortname}}
+        {{stockSearchData!.symbol}} - {{stockSearchData!.shortname}}
     </a>
 
 
@@ -24,7 +24,19 @@
 
     }
     @else {
+
+    @if (buying === true) {
+
     <button class="btn btn-success" (click)="setShowForm(true)">Buy</button>
+
+    }
+
+    @else if (buying === false) {
+
+    <button class="btn btn-danger" (click)="setShowForm(true)">Sell</button>
+
+    }
+
     }
 </div>
 
