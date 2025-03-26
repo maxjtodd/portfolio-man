@@ -1,9 +1,9 @@
 <div class="list-group-item">
     <a
-        [routerLink]="['/stock', stockSearchData.symbol]"
-        [state]="{stockSearchData: stockSearchData, portfolioToActUpon, action: true}"
+        [routerLink]="['/stock', stockSearchData!.symbol]"
+        [state]="buying ? {stockSearchData: stockSearchData, portfolioToActUpon, action: true} : {stockSearchData: undefined, portfolioToActUpon, action: true}"
     >
-        {{stockSearchData.symbol}} - {{stockSearchData.shortname}}
+        {{stockSearchData!.symbol}} - {{stockSearchData!.shortname}}
     </a>
 
 

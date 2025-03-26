@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { StockSearch } from '../stock-search';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HoldingRequest } from '../holding-request';
 import { StockService } from '../stock.service';
@@ -14,9 +14,10 @@ import { Holding } from '../holding';
 })
 export class StockSearchSuggestionComponent {
     @Input() portfolioToActUpon: number | null = null;
-    @Input() stockSearchData!: StockSearch;
+    @Input() stockSearchData?: StockSearch;
     @Input() buying?: boolean = undefined;
 
+    loadingStockSearchData = true;
     showForm = false;
 
     amountForm = new FormGroup({
@@ -25,8 +26,15 @@ export class StockSearchSuggestionComponent {
 
     constructor(
         private stockService: StockService,
-        private router: Router
-    ) { }
+        private router: Router,
+        private  route: ActivatedRoute
+    ) {
+        if (!this.stockSearchData) {
+            this.setStockSearchData();
+        } else {
+            this.loadingStockSearchData = false;
+        }
+    }
 
     setShowForm(toSet: boolean) {
         this.showForm = toSet;
@@ -37,9 +45,13 @@ export class StockSearchSuggestionComponent {
             return;
         }
 
+        if (!this.stockSearchData) {
+            await this.setStockSearchData();
+        }
+
         const holdingRequest: HoldingRequest = {
             portfolioId: this.portfolioToActUpon,
-            ticker: this.stockSearchData.symbol,
+            ticker: this.stockSearchData!.symbol,
             amount: this.amountForm.value.amount
         }
 
@@ -50,5 +62,28 @@ export class StockSearchSuggestionComponent {
         this.router.navigate(["/portfolios", this.portfolioToActUpon])
 
         console.log(res);
+    }
+
+
+    async setStockSearchData() {
+
+        const ticker: string = this.route.snapshot.params["ticker"];
+        if (!ticker) {
+            return;
+        }
+
+        const searchResults = await this.stockService.search(ticker);
+        if (!searchResults) {
+            return;
+        }
+
+        for (const sr of searchResults) {
+            if (sr.symbol === ticker) {
+                this.stockSearchData = sr;
+                this.loadingStockSearchData = false;
+                return;
+            } 
+        }
+
     }
 }
