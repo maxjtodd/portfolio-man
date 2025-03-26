@@ -15,6 +15,7 @@ import { Holding } from '../holding';
 export class StockSearchSuggestionComponent {
     @Input() portfolioToActUpon: number | null = null;
     @Input() stockSearchData!: StockSearch;
+    @Input() buying?: boolean = undefined;
 
     showForm = false;
 

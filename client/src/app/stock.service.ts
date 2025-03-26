@@ -180,6 +180,27 @@ export class StockService {
         return content;
     }
 
+    async sell(holdingRequest: HoldingRequest): Promise<Holding | null> {
+        const res = await fetch("http://localhost:8080/api/holding/sell", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: this.authService.getJwt(),
+            },
+            body: JSON.stringify(holdingRequest)
+        });
+
+        const content = await res.json();
+
+        if (res.status >= 400) {
+            return null;
+        }
+
+        this.portfolioService.setReload(true);
+
+        return content;
+    }
+
 
     // get price history
     async priceHistory(ticker: string) {

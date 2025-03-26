@@ -18,6 +18,7 @@ export class StockSearchComponent {
     searchResults: StockSearch[] = [];
     portfolioToActUpon = -1;
     loadingSearchResults = false;
+    buying?: boolean;
 
     searchForm = new FormGroup({
         searchTerm: new FormControl("")
@@ -28,6 +29,7 @@ export class StockSearchComponent {
         private route: ActivatedRoute
     ) {
         this.portfolioToActUpon = Number(this.route.snapshot.params["id"]);
+        this.buying = this.route.snapshot.data['buy'];
     }
 
     async setSearchResults(searchTerm: string) {
