@@ -54,6 +54,12 @@ public class PortfolioService {
         return result;
     }
 
+    public Result<List<Portfolio>> getPublicPortfolios() {
+        Result<List<Portfolio>> result = new Result<>();
+        result.setPayload(portfolioRepository.getPublicPortfolios());
+        return result;
+    }
+
     public Result<Portfolio> add(Portfolio toAdd) {
         Result<Portfolio> result = validate(toAdd);
 

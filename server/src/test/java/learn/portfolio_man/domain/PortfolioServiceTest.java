@@ -100,6 +100,17 @@ public class PortfolioServiceTest {
 
     }
 
+    @Test
+    void shouldFindPublicPortfoios() {
+        List<Portfolio> publicPortfolios = List.of(TestHelper.generatePortfolio(1), TestHelper.generatePortfolio(2));
+        when(portfolioRepository.getPublicPortfolios()).thenReturn(publicPortfolios);
+        Result<List<Portfolio>> expected = new Result<>();
+        expected.setPayload(publicPortfolios);
+
+        Result<List<Portfolio>> actual = service.getPublicPortfolios();
+
+        assertEquals(expected, actual);
+    }
 
 
     @Nested
