@@ -12,6 +12,7 @@
 
             <h1>{{portfolio!.name}} {{portfolio!.private ? "(private)" : ""}}</h1>
             <h3>Balance {{portfolio.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</h3>
+            <p>{{portfolioService.getReload() ? setPortfolio() : null}}</p>
 
         </div>
 

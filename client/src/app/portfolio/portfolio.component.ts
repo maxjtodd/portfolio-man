@@ -31,18 +31,14 @@ export class PortfolioComponent {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private portfolioService: PortfolioService,
+        public portfolioService: PortfolioService,
         private stockService: StockService,
         private authService: AuthenticationService
     ) {
         this.portfolioId = Number(this.route.snapshot.params["id"]);
         this.portfolio = this.router.getCurrentNavigation()?.extras
             .state as Portfolio | null;
-        if (!this.portfolio) {
-            this.setPortfolio();
-        } else {
-            this.loadingPortfolio = false;
-        }
+        this.setPortfolio();
         this.userId = this.authService.getUserId();
         this.setHoldings();
         this.stockDetailsData = {
@@ -61,6 +57,7 @@ export class PortfolioComponent {
 
     async setHoldings() {
         this.holdings = await this.portfolioService.getHoldings(this.portfolioId);
+        this.portfolioService.setReload(false);
         this.drawGraph();
     }
 
