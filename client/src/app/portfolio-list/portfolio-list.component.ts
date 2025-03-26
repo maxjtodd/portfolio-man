@@ -34,7 +34,7 @@ export class PortfolioListComponent {
         if (this.myPortfolios) {
             fetchedPortfolios = await this.portfolioService.myPortfolios();
         } else {
-
+            fetchedPortfolios = await this.portfolioService.getPublicPortfolios();
         }
 
         if (fetchedPortfolios === null) {

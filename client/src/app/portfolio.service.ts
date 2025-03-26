@@ -44,8 +44,10 @@ export class PortfolioService {
 
     }
 
-    async getPublicPortfolios(): Promise<Portfolio[] | null> {
-        return null;
+    async getPublicPortfolios(): Promise<Portfolio[]> {
+        const res = await fetch("http://localhost:8080/api/portfolio/public");
+        const content = await res.json();
+        return content;
     }
 
     async myPortfolios(): Promise<Portfolio[] | null> {
