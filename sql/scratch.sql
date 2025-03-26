@@ -10,5 +10,6 @@ use portfolio;
 --     (3, 1, 1.00),
 --     (3, 2, 1.00);
 
-SELECT * FROM stock;
+SELECT * FROM portfolio;
+SELECT * FROM holding WHERE portfolio_id = 2;
 -- SELECT * FROM holding;

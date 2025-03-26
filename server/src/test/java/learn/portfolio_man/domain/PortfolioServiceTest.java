@@ -175,5 +175,21 @@ public class PortfolioServiceTest {
 
     }
 
+
+    @Test
+    void shouldNotEditNegativeBalance() {
+        Portfolio toEdit1 = TestHelper.generatePortfolio(1);
+        Portfolio toEdit2 = TestHelper.generatePortfolio(1);
+        toEdit1.setBalance(new BigDecimal(-100));
+        toEdit2.setBalance(null);
+        Result<Portfolio> expected = new Result<>(ResultStatus.BAD_REQUEST, "Bad balance");
+
+        Result<Portfolio> actual1 = service.edit(toEdit1);
+        Result<Portfolio> actual2 = service.edit(toEdit2);
+
+        assertEquals(expected, actual1);
+        assertEquals(expected, actual2);
+    }
+
 }
 

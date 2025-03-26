@@ -57,6 +57,14 @@ public class PortfolioService {
     public Result<Portfolio> add(Portfolio toAdd) {
         Result<Portfolio> result = validate(toAdd);
 
+        if (toAdd.getBalance() == null) {
+            toAdd.setBalance(new BigDecimal("10000.00"));
+        }
+
+        if (toAdd.getBalance().compareTo(new BigDecimal("10000.00")) != 0) {
+            result.addMessage(ResultStatus.BAD_REQUEST, "10,000 is the starting balance for new portfolios");
+        }
+
         if (result.isSuccess()) {
             Portfolio added = portfolioRepository.add(toAdd);
             result.setPayload(added);
@@ -65,6 +73,20 @@ public class PortfolioService {
         return result;
     }
 
+    public Result<Portfolio> edit(Portfolio toEdit) {
+        if (toEdit.getBalance() == null || toEdit.getBalance().compareTo(new BigDecimal(0)) < 0) {
+            return new Result<>(ResultStatus.BAD_REQUEST, "Bad balance");
+        }
+
+        Result<Portfolio> result = validate(toEdit);
+
+        if (result.isSuccess()) {
+            Portfolio edited = portfolioRepository.edit(toEdit);
+            result.setPayload(edited);
+        }
+
+        return result;
+    }
 
     private Result<Portfolio> validate(Portfolio toValidate) {
 
@@ -84,13 +106,6 @@ public class PortfolioService {
             result.addMessage(ResultStatus.BAD_REQUEST, "Name is required");
         }
 
-        if (toValidate.getBalance() == null) {
-            toValidate.setBalance(new BigDecimal("10000.00"));
-        }
-
-        if (toValidate.getBalance().compareTo(new BigDecimal("10000.00")) != 0) {
-            result.addMessage(ResultStatus.BAD_REQUEST, "10,000 is the starting balance for new portfolios");
-        }
 
 
         return result;

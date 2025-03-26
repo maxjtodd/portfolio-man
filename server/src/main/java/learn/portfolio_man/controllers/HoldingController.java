@@ -1,6 +1,7 @@
 package learn.portfolio_man.controllers;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -74,26 +75,29 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        System.out.println("Past auth");
-
-        // TODO: make sure enough portfolio balance
         Result<Portfolio> portfolioResult = portfolioService.getPortfolioById(holdingRequest.getPortfolioId());
         if (!portfolioResult.isSuccess()) {
             ControllerHelper.errorMessageResponse(HttpStatus.NOT_FOUND, "Portfolio not found");
         }
         BigDecimal currentBalance = portfolioResult.getPayload().getBalance();
 
-        System.out.println("Past get current balance");
-
         BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
-
-        System.out.println("Past get current price");
 
         Holding toBuy = holdingRequestToHolding(holdingRequest);
         Result<Holding> boughtResult = holdingService.buy(toBuy, currentPrice, currentBalance);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
+        }
+
+        BigDecimal balanceAfterBuy = currentBalance.subtract(currentPrice.multiply(holdingRequest.getAmount())).setScale(2, RoundingMode.HALF_UP);
+
+        Portfolio newPortfolio = portfolioResult.getPayload();
+        newPortfolio.setBalance(balanceAfterBuy);
+
+        Result<Portfolio> editBalanceResult = portfolioService.edit(newPortfolio);
+        if (!editBalanceResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Balance not updated");
         }
 
         return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);
