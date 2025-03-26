@@ -111,14 +111,30 @@ public class HoldingController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        // TODO: make sure add to portfolio balance
+        Result<Portfolio> portfolioResult = portfolioService.getPortfolioById(holdingRequest.getPortfolioId());
+        if (!portfolioResult.isSuccess()) {
+            return ControllerHelper.errorMessageResponse(HttpStatus.NOT_FOUND, "Portfolio not found");
+        }
+
+        BigDecimal currentBalance = portfolioResult.getPayload().getBalance();
         BigDecimal currentPrice = yahooFinance.getCurrentPrice(holdingRequest.getTicker()).getCurrentPrice();
 
+
         Holding toSell = holdingRequestToHolding(holdingRequest);
-        Result<Holding> boughtResult = holdingService.sell(toSell, currentPrice);
+        Result<Holding> boughtResult = holdingService.sell(toSell);
 
         if (!boughtResult.isSuccess()) {
             return ControllerHelper.errorResultToResponseEntity(boughtResult);
+        }
+
+        BigDecimal balanceAfterSell = currentBalance.add(holdingRequest.getAmount().multiply(currentPrice)).setScale(2, RoundingMode.HALF_UP);
+
+        Portfolio newPortfolio = portfolioResult.getPayload();
+        newPortfolio.setBalance(balanceAfterSell);
+
+        Result<Portfolio> editBalanceResult = portfolioService.edit(newPortfolio);
+        if (!editBalanceResult.isSuccess()) {
+            ControllerHelper.errorMessageResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Balance not updated");
         }
 
         return new ResponseEntity<>(boughtResult.getPayload(), HttpStatus.OK);

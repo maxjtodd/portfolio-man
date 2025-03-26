@@ -75,7 +75,8 @@ public class HoldingService {
         return result;
     }
 
-    public Result<Holding> sell(Holding toSell, BigDecimal amountPerShare) {
+    public Result<Holding> sell(Holding toSell) {
+
         Result<Holding> result = validate(toSell);
         if (!result.isSuccess()) {
             return result;
