@@ -66,6 +66,14 @@ public class PortfolioController {
         return new ResponseEntity<Object>(result.getPayload(), HttpStatus.OK);
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<Object> getUsersPortfolios() {
+
+        Result<List<Portfolio>> result = portfolioService.getPublicPortfolios();
+
+        return new ResponseEntity<Object>(result.getPayload(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody Portfolio toAdd, @RequestHeader Map<String, String> headers) {
 
