@@ -1,5 +1,3 @@
-@if(userId) {
-
 @if(!portfolio) {
 <div>
     <h1>Portfolio not found</h1>
@@ -16,7 +14,7 @@
 
         </div>
 
-        @if (portfolio.userId === userId) {
+        @if (isMyPortfolio()) {
 
         <div class="col-1">
             <a class="btn btn-success" routerLink="./buy">Buy</a>
@@ -70,6 +68,4 @@
 
 
 </div>
-}
-
 }

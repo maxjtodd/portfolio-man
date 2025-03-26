@@ -26,8 +26,15 @@ export const routes: Routes = [
         title: 'Log In'
     },
     {
+        path: 'portfolios',
+        component: PortfolioListComponent,
+        data: {myPortfolios: false},
+        title: 'Browse Portfolios'
+    },
+    {
         path: 'myPortfolios',
         component: PortfolioListComponent,
+        data: {myPortfolios: true},
         title: 'My Portfolios'
     },
     {
