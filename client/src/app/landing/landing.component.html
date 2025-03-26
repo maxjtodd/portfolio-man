@@ -1,1 +1,6 @@
-<p>landing works!</p>
+@if (authService.isLoggedIn()) {
+    <h1 class="text-center">Welcome back, {{authService.getUser().firstName}}!</h1>
+} @else {
+    <h1 class="text-center">Welcome!</h1>
+}
+

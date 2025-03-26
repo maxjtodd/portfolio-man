@@ -25,6 +25,11 @@ export class AuthenticationService {
         return decoded.userId;
     }
 
+    getUser() {
+        const decoded: User = jwtDecode(this.jwt);
+        return decoded;
+    }
+
     loadJwtOnStartup(): void {
         const loadedJwt = localStorage.getItem("jwt");
         if (loadedJwt !== null) {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-landing',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './landing.component.css'
 })
 export class LandingComponent {
+
+    constructor(
+        public authService: AuthenticationService
+    ) { }
 
 }
