@@ -55,9 +55,12 @@ export class StockSearchSuggestionComponent {
             amount: this.amountForm.value.amount
         }
 
-        console.log('buying...')
-        const res: Holding | null = await this.stockService.buy(holdingRequest);
-        console.log('done')
+        let res: Holding | null = null;
+        if (this.buying === true) {
+            res = await this.stockService.buy(holdingRequest);
+        } else if (this.buying === false) {
+            res = await this.stockService.sell(holdingRequest);
+        }
 
         this.router.navigate(["/portfolios", this.portfolioToActUpon])
 
