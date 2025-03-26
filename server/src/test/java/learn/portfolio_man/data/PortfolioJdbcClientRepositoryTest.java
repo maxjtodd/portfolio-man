@@ -84,6 +84,15 @@ public class PortfolioJdbcClientRepositoryTest {
     }
 
     @Test
+    void shouldGetPublicPortfolios() {
+        List<Portfolio> expected = List.of(TestHelper.generatePortfolio(3), TestHelper.generatePortfolio(5));
+
+        List<Portfolio> actual = repository.getPublicPortfolios();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void shouldAdd() {
         Portfolio toAdd = TestHelper.generatePortfolio(1);        
         toAdd.setPortfolioId(0);

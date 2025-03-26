@@ -42,7 +42,11 @@ public class PortfolioJdbcClientRepository implements PortfolioRepository {
 
     @Override
     public List<Portfolio> getPublicPortfolios() {
-        throw new UnsupportedOperationException("Unimplemented method 'getPublicPortfolios'");
+        final String sql = SELECT + "WHERE private = FALSE;";
+
+        return jdbcClient.sql(sql)
+            .query(new PortfolioMapper())
+            .list();
     }
 
     @Override
