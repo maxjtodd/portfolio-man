@@ -6,7 +6,7 @@
 @else {
 <div class="container">
     <div class="row">
-        <div class="col-9">
+        <div class="col-8">
 
             <h1>{{portfolio!.name}} {{portfolio!.private ? "(private)" : ""}}</h1>
             <h3>Balance {{portfolio.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</h3>
@@ -16,6 +16,8 @@
 
         @if (isMyPortfolio()) {
 
+        <div class="col-1"></div>
+
         <div class="col-1">
             <a class="btn btn-success" routerLink="./buy">Buy</a>
         </div>
@@ -24,9 +26,7 @@
             <a class="btn btn-danger" routerLink="./sell">Sell</a>
         </div>
 
-        <div class="col-1">
-            <button class="btn btn-info">Settings</button>
-        </div>
+        <div class="col-1"></div>
 
         }
 
