@@ -1,7 +1,7 @@
 <div class="card" style="width: 18rem;" [routerLink]="['../portfolios', portfolio.portfolioId]" [state]="portfolio">
     <div class="card-body">
         <h4 class="card-title">{{portfolio.name}} {{portfolio.private ? "(private)" : "" }}</h4>
-        <h5 class="card-subtitle">user {{portfolio.userId}}</h5>
+        <h5 class="card-subtitle">{{owner === null ? "Loading user..." : owner!.firstName + " " + owner!.lastName }}</h5>
         <p class="card-text">Balance: {{portfolio.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}}</p>
     </div>
 </div>

@@ -40,7 +40,7 @@ export class GraphComponent {
 
         const dateLabels = this.labels.map(l => new Date(Number(l) * 1000).toLocaleString());
 
-        this.data = this.labels.map((l) => 0);
+        this.data = this.labels.map((_) => 0);
 
         for (const ph of this.toGraph!) {
             console.log(Object.keys(ph.body).length)
