@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { StockSearch } from '../stock-search';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockDetailsData } from '../stock-details-data';

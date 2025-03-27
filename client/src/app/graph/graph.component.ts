@@ -37,6 +37,8 @@ export class GraphComponent {
         console.log(`Lowest: ${lowestNumItems}`)
 
         this.labels = Object.keys(this.toGraph[lowestItemIndex].body);
+        this.labels.pop();
+        this.labels.pop();
 
         const dateLabels = this.labels.map(l => new Date(Number(l) * 1000).toLocaleString());
 
