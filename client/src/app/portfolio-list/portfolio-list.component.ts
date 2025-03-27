@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { PortfolioService } from "../portfolio.service";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { Portfolio } from "../portfolio";
 import { PortfolioCardComponent } from "../portfolio-card/portfolio-card.component";
 import { CommonModule } from "@angular/common";
@@ -18,7 +18,6 @@ export class PortfolioListComponent {
 
     constructor(
         private portfolioService: PortfolioService,
-        private router: Router,
         private route: ActivatedRoute
     ) {
         this.myPortfolios = this.route.snapshot.data['myPortfolios'];

@@ -43,3 +43,7 @@ Content-Type: application/json
     "email": "user1",
     "password": "bad password"
 }
+
+###
+
+GET {{url}}/1 HTTP/1.1

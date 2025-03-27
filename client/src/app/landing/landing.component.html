@@ -1,1 +1,30 @@
-<p>landing works!</p>
+<div class="jumbotron">
+
+    @if (authService.isLoggedIn()) {
+    <h1 class="display-4 text-center">Welcome back, {{authService.getUser().firstName}}!</h1>
+    } @else {
+    <h1 class="display-4 text-center">Welcome!</h1>
+    }
+
+    <p class="lead text-center">Create fake portfolios, or mimic real ones with ease!</p>
+    <p class="lead text-center">No real money required!</p>
+    <hr class="my-4">
+    <p class="text-center">Our goal is to help guide the younger generation on their guide to financial literacy.</p>
+    <p class="lead text-center">Start your journey today!</p>
+
+    <div class="d-flex justify-content-center">
+        <div class="mx-auto">
+
+            <a class="btn btn-primary btn-lg" routerLink="/portfolios" role="button">Browse</a>
+            @if (authService.isLoggedIn()) {
+            <a class="btn btn-primary btn-lg" routerLink="/myPortfolios/create" role="button">Create</a>
+            }
+            @else {
+            <a class="btn btn-primary btn-lg" routerLink="/login" role="button">Login</a>
+            <a class="btn btn-primary btn-lg" routerLink="/signup" role="button">Sign Up</a>
+            }
+
+        </div>
+    </div>
+
+</div>

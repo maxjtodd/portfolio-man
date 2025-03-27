@@ -37,7 +37,12 @@ export class GraphComponent {
         console.log(`Lowest: ${lowestNumItems}`)
 
         this.labels = Object.keys(this.toGraph[lowestItemIndex].body);
-        this.data = this.labels.map((l) => 0);
+        this.labels.pop();
+        this.labels.pop();
+
+        const dateLabels = this.labels.map(l => new Date(Number(l) * 1000).toLocaleString());
+
+        this.data = this.labels.map((_) => 0);
 
         for (const ph of this.toGraph!) {
             console.log(Object.keys(ph.body).length)
@@ -59,7 +64,7 @@ export class GraphComponent {
                     data: this.data,
                 },
             ],
-            labels: this.labels
+            labels: dateLabels,
         };
 
         this.lineChartOptions = {
